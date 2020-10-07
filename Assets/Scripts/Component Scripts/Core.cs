@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
 public enum CoreTraits
 {
     offspringCount = 1,
-    offspringMutationChance = 0.15f, //0 to 1
-    sensingRange =
+    offspringMutationChance = 15, //0 to 100
+    sensingRange = (int)GlobalEnvironmentLib.TileSize * 5,
     mass = 1,
     initStorageCap = 10
 }
