@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public int enum CoreTraits
+public enum CoreTraits : int
 {
     offspringCount = 1,
     offspringMutationChance = 15, //0 to 100
