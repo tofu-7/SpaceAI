@@ -440,8 +440,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ded64a73407fe22489bc76aeb0faceee, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+  m_Name:
+  m_EditorClassIdentifier:
   corePrefab: {fileID: 319502063750456926, guid: 6e7bb83ef3d72bf41a6d0900d90b7cc0,
     type: 3}
   mouthPrefab: {fileID: 169148691179459830, guid: 37b38a502944dd14e98a9c5d378cef46,
