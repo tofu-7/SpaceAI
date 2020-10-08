@@ -4,6 +4,10 @@ using UnityEngine;
 
 public enum MouthTraits
 {
+    topValid = 0,
+    leftValid = 1,
+    BottomValid = 1,
+    RightValid = 1,
     mass = 1,
     consumeRadius =  (int)GlobalEnvironmentLib.TileSize * 1,
     consumeMaxVel = 2, //in tiles per second
