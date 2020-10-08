@@ -2,11 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-<<<<<<< Updated upstream
-public int enum CoreTraits
-=======
 public enum CoreTraits
->>>>>>> Stashed changes
 {
     offspringCount = 1,
     offspringMutationChance = 15, //0 to 100
@@ -23,11 +19,11 @@ public class Core : MonoBehaviour
     void Start()
     {
 
-    } 
+    }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }
