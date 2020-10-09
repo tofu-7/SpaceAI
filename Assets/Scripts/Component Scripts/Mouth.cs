@@ -2,6 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum MouthTraits
+{
+    topValid = 0,
+    leftValid = 1,
+    BottomValid = 1,
+    RightValid = 1,
+    mass = 1,
+    consumeRadius =  1, // 1 tile = size of pixels in sprite
+    consumeMaxVel = 2, //in tiles per second
+    consumeRate = 1 //in resource unit per second
+}
 public class Mouth : MonoBehaviour
 {
     // Start is called before the first frame update
