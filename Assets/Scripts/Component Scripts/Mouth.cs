@@ -9,7 +9,7 @@ public enum MouthTraits
     BottomValid = 1,
     RightValid = 1,
     mass = 1,
-    consumeRadius =  (int)GlobalEnvironmentLib.TileSize * 1,
+    consumeRadius =  1, // 1 tile = size of pixels in sprite
     consumeMaxVel = 2, //in tiles per second
     consumeRate = 1 //in resource unit per second
 }

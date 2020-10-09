@@ -16,10 +16,9 @@ public class initShip : MonoBehaviour
     Transform mouth;
     Transform thruster;
 
-    bool followed = true;
+    bool followed = true; //determines whether camera follows ship or not
 
     // Start is called before the first frame update
-
     void Start()
     {
         SpawnShip();
