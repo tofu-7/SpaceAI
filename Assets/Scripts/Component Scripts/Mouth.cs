@@ -1,29 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public enum MouthTraits
+/*
+public static class Mouth
 {
-    topValid = 0,
-    leftValid = 1,
-    BottomValid = 1,
-    RightValid = 1,
-    mass = 1,
-    consumeRadius =  1, // 1 tile = size of pixels in sprite
-    consumeMaxVel = 2, //in tiles per second
-    consumeRate = 1 //in resource unit per second
+    static bool[] validPlace = new bool[4]{false, true, true, true}; //Top, Right, Bottom, Left
+    static int mass = 1;
+    static int consumeRadius =  1;
+    static int consumeMaxVel = 2;
+    static int consumeRate = 1;
 }
-public class Mouth : MonoBehaviour
-{
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-}
+*/

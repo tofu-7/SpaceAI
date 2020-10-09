@@ -3,24 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 public enum ThrusterTraits
 {
-    topValid = 0,
-    leftValid = 1,
-    BottomValid = 1,
-    RightValid = 1,
-    mass = 1,
-    specificImpulse = 1, //Force exerted (per s) = specificImpulseVar * resource consumed (per s)
 }
-public class Thruster : MonoBehaviour
+public static class Thruster
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    static bool[] validPlace = new bool[4]{true, true, false, true}; //Top, Right, Bottom, Left
+    static int mass = 1;
+    static float specificImpulse = 1f; //Force exerted (per s) = specificImpulseVar * thrusters' resource consumed (per s)
 }

@@ -5,16 +5,12 @@ using UnityEngine;
 
 public class initShip : MonoBehaviour
 {
-    [SerializeField]
-    Transform corePrefab = default;
+    
     [SerializeField]
     Transform mouthPrefab = default;
     [SerializeField]
     Transform thrusterPrefab = default;
-
-    Transform core;
-    Transform mouth;
-    Transform thruster;
+    Core core = new Core();
 
     bool followed = true; //determines whether camera follows ship or not
 
@@ -23,17 +19,17 @@ public class initShip : MonoBehaviour
     {
         SpawnShip();
 
-        //CAM STUFF
-        if (followed = true)
+       /* //CAM STUFF
+        if (followed == true)
         {
-            Camera.main.transform.SetParent(core);
-            Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+           // Camera.main.transform.SetParent(core);
+          //  Camera.main.transform.localPosition = new Vector3(0, 0, -10);
         }
-        else if (followed = false)
+        else if (followed == false)
         {
             return;
         }
-        //END CAM STUFF
+        //END CAM STUFF */
     }
 
     // Update is called once per frame
@@ -44,15 +40,17 @@ public class initShip : MonoBehaviour
 
     void SpawnShip()
     {
-        core = Instantiate(corePrefab);
-        mouth = Instantiate(mouthPrefab);
-        thruster = Instantiate(thrusterPrefab);
+        Transform coreTransform = Core.CorePrefab.corePrefab.transform;
+        Instantiate(coreTransform);
 
-        mouth.SetParent(core);
-        thruster.SetParent(core);
+     //   mouth = Instantiate(mouthPrefab);
+       // thruster = Instantiate(thrusterPrefab);
 
-        mouth.localPosition = Vector3.up * 1;
-        thruster.localPosition = Vector3.down * 1;
+      //  mouth.SetParent(core);
+      //  thruster.SetParent(core);
+
+       // mouth.localPosition = Vector3.up * 1;
+       // thruster.localPosition = Vector3.down * 1;
     }
 }
 

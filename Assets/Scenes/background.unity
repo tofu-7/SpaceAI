@@ -235,8 +235,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ded64a73407fe22489bc76aeb0faceee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corePrefab: {fileID: 319502063750456926, guid: 6e7bb83ef3d72bf41a6d0900d90b7cc0,
-    type: 3}
   mouthPrefab: {fileID: 169148691179459830, guid: 37b38a502944dd14e98a9c5d378cef46,
     type: 3}
   thrusterPrefab: {fileID: 349996516173523297, guid: 8199f3358f491ce4b8782d08e822f358,
@@ -253,7 +251,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eaaf5a9f10f953d40840fa53f62ebd17, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  resource: {fileID: 0}
+  resource: {fileID: 1850546965212298448, guid: b0b05934ee63c3742b368740ff88350d,
+    type: 3}
 --- !u!114 &2052196998
 MonoBehaviour:
   m_ObjectHideFlags: 0
