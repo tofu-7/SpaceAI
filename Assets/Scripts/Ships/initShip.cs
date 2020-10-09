@@ -16,11 +16,25 @@ public class initShip : MonoBehaviour
     Transform mouth;
     Transform thruster;
 
+    bool followed = true;
+
     // Start is called before the first frame update
 
     void Start()
     {
         SpawnShip();
+
+        //CAM STUFF
+        if (followed = true)
+        {
+            Camera.main.transform.SetParent(core);
+            Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+        }
+        else if (followed = false)
+        {
+            return;
+        }
+        //END CAM STUFF
     }
 
     // Update is called once per frame
@@ -38,11 +52,9 @@ public class initShip : MonoBehaviour
         mouth.SetParent(core);
         thruster.SetParent(core);
 
-        mouth.localPosition = Vector3.up * GlobalEnvironmentLib.TileSize;
-        thruster.localPosition = Vector3.down * GlobalEnvironmentLib.TileSize;
-        thruster.localRotation = new Quaternion(0, 0, 180, 0);
+        mouth.localPosition = Vector3.up * 1;
+        thruster.localPosition = Vector3.down * 1;
     }
-
 }
 
 
