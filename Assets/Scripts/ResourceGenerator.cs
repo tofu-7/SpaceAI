@@ -17,7 +17,7 @@ public class ResourceGenerator : MonoBehaviour
         for (int i= 0; i<ResourceCap; i++)
         {
             Transform newR = Instantiate(resource).GetComponent<Transform>();
-            newR.localPosition = new Vector3(10, 0, 10);
+            newR.localPosition = new Vector3(Random.Range(0f, GlobalEnvironmentLib.xBound), Random.Range(0f, GlobalEnvironmentLib.yBound), 0);
         }
     }
 
