@@ -22,7 +22,7 @@ public class CoreTraits
     public int offSpringCount { get; set; }
     public bool[] validPlace { get; set; } = new bool[4]; //Top, Right, Bottom, Left
     public float offspringMutationChance { get; set; }
-    public int sensingRange { get; set; }
+    public float sensingRange { get; set; }
     public int mass { get; set; }
     public int MaxStorageCap { get; set; }
     public int currentlyStored { get; set; }
@@ -33,7 +33,7 @@ public class CoreTraits
         validPlace = new bool[4] { true, true, true, true }; //Top, Right, Bottom, Left
         offSpringCount = 1;
         offspringMutationChance = 0.15f;
-        sensingRange = 5;
+        sensingRange = 5f;
         mass = 1;
         MaxStorageCap = 10;
         currentlyStored = 0;

@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Runtime;
+using UnityEditor;
 
 public class initShip : MonoBehaviour
 {
@@ -16,8 +17,15 @@ public class initShip : MonoBehaviour
     Transform mouth;
     Transform thruster;
 
-    bool followed = true; //determines whether camera follows ship or not
+    CoreTraits coreTraits = new CoreTraits();
+    ThrusterTraits thrusterTraits = new ThrusterTraits();
+    MouthTraits mouthTraits = new MouthTraits();
+    int sumMass = 0;
+    int mouthCount =1;
+    int thrusterCount =1;
 
+    bool followed = true; //determines whether camera follows ship or not
+   
     // Start is called before the first frame update
     void Start()
     {
@@ -34,26 +42,75 @@ public class initShip : MonoBehaviour
             return;
         }
         //END CAM STUFF 
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        //MVMNT STUFF V
+        sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass;
+        Vector2 curShipPos = core.localPosition;
+        float senseDist = coreTraits.sensingRange;
+        Vector2 direction = core.rotation.eulerAngles;
+        Quaternion goToAngle;
+        Vector2 goToPoint = Vector2.one;
+        RaycastHit2D senseCast =
+            Physics2D.CircleCast(curShipPos, senseDist/2, direction, senseDist);
+
+        if(senseCast.collider != null)
+        {
+            Debug.DrawRay(curShipPos, new Vector2(0, 1*senseCast.distance));
+
+            goToPoint = senseCast.point;
+            goToAngle = Quaternion.FromToRotation(curShipPos, goToPoint);
+            core.transform.rotation = goToAngle;
+
+            Debug.Log("hit somethin!");
+        }
+        else if(senseCast.collider == null)
+        {
+            Debug.DrawRay(curShipPos, senseCast.point);
+            Debug.Log("Nothing hit");
+
+            goToPoint = new Vector3(randX(curShipPos, senseDist), randY(curShipPos, senseDist));
+            goToAngle = Quaternion.FromToRotation(curShipPos, goToPoint);
+            core.transform.rotation = goToAngle;
+        }
+        if (Vector2.Distance(curShipPos, goToPoint) > mouthTraits.consumeRadius)
+        {
+            core.transform.position +=
+                 new Vector3(0f, thrusterCount * (thrusterTraits.acc * sumMass), 0f);
+        }
+        else
+        {
+            EditorApplication.isPaused = true;
+        }
+
+        //END MVMNT STUFF
     }
 
     void SpawnShip()
     {
         core = Instantiate(corePrefab);
-        mouth = Instantiate(mouthPrefab);
+        mouth = Instantiate(mouthPrefab); 
         thruster = Instantiate(thrusterPrefab);
 
         mouth.SetParent(core);
         thruster.SetParent(core);
 
-        mouth.localPosition = Vector3.up * 1;
-        thruster.localPosition = Vector3.down * 1;
-        core.position = new Vector3(25f,25f,0f);
+        mouth.localPosition = Vector2.up * 1;
+        thruster.localPosition = Vector2.down * 1;
+        core.position = new Vector2(25f,25f);
+    }
+    float randX(Vector2 origin, float senseDist)
+    {
+        return Random.Range(origin.x * -1 * senseDist, origin.x * senseDist);
+
+    }
+    float randY(Vector2 origin, float senseDist)
+    {
+        return Random.Range(origin.y * -1 * senseDist, origin.y * senseDist);
     }
 }
 
