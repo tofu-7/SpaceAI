@@ -24,16 +24,16 @@ public class initShip : MonoBehaviour
         SpawnShip();
 
         //CAM STUFF
-        if (followed = true)
+        if (followed == true)
         {
             Camera.main.transform.SetParent(core);
             Camera.main.transform.localPosition = new Vector3(0, 0, -10);
         }
-        else if (followed = false)
+        else if (followed == false)
         {
             return;
         }
-        //END CAM STUFF
+        //END CAM STUFF 
     }
 
     // Update is called once per frame
@@ -53,6 +53,7 @@ public class initShip : MonoBehaviour
 
         mouth.localPosition = Vector3.up * 1;
         thruster.localPosition = Vector3.down * 1;
+        core.position = new Vector3(25f,25f,0f);
     }
 }
 
