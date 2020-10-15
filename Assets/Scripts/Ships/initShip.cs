@@ -19,18 +19,25 @@ public class initShip : MonoBehaviour
     Transform mouth;
     Transform thruster;
 
+<<<<<<< Updated upstream
     CoreTraits coreTraits = new CoreTraits();
     ThrusterTraits thrusterTraits = new ThrusterTraits();
     MouthTraits mouthTraits = new MouthTraits();
     int sumMass = 0;
     int mouthCount =1;
     int thrusterCount =1;
+=======
+    
+
+    bool followed = true; //determines whether camera follows ship or not
+>>>>>>> Stashed changes
 
     bool followed = true; //determines whether camera follows ship or not
    
     // Start is called before the first frame update
     void Start()
     {
+
         SpawnShip();
 
         //CAM STUFF
@@ -50,6 +57,7 @@ public class initShip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< Updated upstream
         //MVMNT STUFF V
         sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass;
         Vector2 curShipPos = core.localPosition;
@@ -90,6 +98,25 @@ public class initShip : MonoBehaviour
         }
 
         //END MVMNT STUFF
+=======
+        //Camera Motion Stuff
+        if(Input.GetKey(KeyCode.W))
+            {
+                Camera.main.transform.position = new Vector3(0,Input.GetAxis("Vertical") += 0.01f,0);
+            }
+        if(Input.GetKey(KeyCode.A))
+            {
+                Camera.main.transform.position = new Vector3(Input.GetAxis("Horizontal") -= 0.01f,0,0);
+            }
+        if(Input.GetKey(KeyCode.S))
+            {
+                Camera.main.transform.position = new Vector3(0,Input.GetAxis("Vertical") -= 0.01f,0);
+            }
+        if(Input.GetKey(KeyCode.D))
+            {
+                Camera.main.transform.position = new Vector3(Input.GetAxis("Horizontal") += 0.01f,0,0);
+            }
+>>>>>>> Stashed changes
     }
 
     void SpawnShip()
