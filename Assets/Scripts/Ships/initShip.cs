@@ -4,6 +4,8 @@ using UnityEngine;
 using System.Runtime;
 using UnityEditor;
 
+//TODO Comment ur damn code scoot
+
 public class initShip : MonoBehaviour
 {
     [SerializeField]
