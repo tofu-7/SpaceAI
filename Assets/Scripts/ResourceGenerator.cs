@@ -57,17 +57,19 @@ public class ResourceGenerator : MonoBehaviour
 
     private int resourceCount() //get a count of all resources in the simulation (warning dont look if you value good code)
     {
-        int jank = 0; //name is appropriate
+        int resourcecount = 0; //name is appropriate
 
-        Collider2D[] ee = Physics2D.OverlapBoxAll(new Vector2(GlobalEnvironmentLib.xBound / 2, GlobalEnvironmentLib.yBound / 2), 
-            new Vector2(GlobalEnvironmentLib.xBound, GlobalEnvironmentLib.yBound), 0); //find *every* object in the sumulation
+        
+        GameObject[] arraycount = GameObject.FindGameObjectsWithTag("Resource");
+
+
 
         for(int i = 0; i<ee.Length; i++) //loop over every object
         {
-            if (ee[i].name.Contains("Resource")) { jank++; } //oh god y
+            if (ee[i].name.Contains("Resource")) { resourcecount++; } //oh god y
         }
 
-        return jank; //i think it works O_O
-        //TODO dejankify
+        return resourcecount; //i think it works O_O
+       
     }
 }
