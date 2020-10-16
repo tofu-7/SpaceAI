@@ -43,9 +43,9 @@ public class ResourceGenerator : MonoBehaviour
 
     void Update() //renew stuff if needed
     {
-        if(renewableResources && resourceCount() < ResourceCap) //does thing if less resources than cap
+        if(renewableResources) //does thing if turned on
         {
-            for (int i = 0; i < ResourceCap-resourceCount(); i++) //makes new resources to cap
+            for (int i = 0; i < ResourceCap-tagCount("Resource"); i++) //makes new resources to cap
             {
                 Transform newR = Instantiate(resource).GetComponent<Transform>();
                 newR.localPosition = new Vector3(Random.Range(0f, GlobalEnvironmentLib.xBound), Random.Range(0f, GlobalEnvironmentLib.yBound), 0);
@@ -53,23 +53,37 @@ public class ResourceGenerator : MonoBehaviour
         }
 
         //TODO implement renewable components
+        if (renewableComponents)
+        {
+            for (int i = 0; i < thrusterCap - tagCount("Thruster"); i++) //makes new thrusters to cap
+            {
+                Transform newR = Instantiate(thruster).GetComponent<Transform>();
+                newR.localPosition = new Vector3(Random.Range(0f, GlobalEnvironmentLib.xBound), Random.Range(0f, GlobalEnvironmentLib.yBound), 0);
+            }
+
+            for (int i = 0; i < mouthCap - tagCount("Mouth"); i++) //makes new thrusters to cap
+            {
+                Transform newR = Instantiate(mouth).GetComponent<Transform>();
+                newR.localPosition = new Vector3(Random.Range(0f, GlobalEnvironmentLib.xBound), Random.Range(0f, GlobalEnvironmentLib.yBound), 0);
+            }
+        }
     }
 
-    private int resourceCount() //get a count of all resources in the simulation (warning dont look if you value good code)
+    private int tagCount(string tag) //get a count of all resources in the simulation (warning dont look if you value good code)
     {
-        int resourcecount = 0; //name is appropriate
+        //int resourcecount = 0; //also dont need it
 
         
-        GameObject[] arraycount = GameObject.FindGameObjectsWithTag("Resource");
+        GameObject[] arraycount = GameObject.FindGameObjectsWithTag(tag); //just find shit with resources tags
 
 
-
+        /* litterally uncessceary lol f for ee[]
         for(int i = 0; i<ee.Length; i++) //loop over every object
         {
             if (ee[i].name.Contains("Resource")) { resourcecount++; } //oh god y
-        }
+        } */
 
-        return resourcecount; //i think it works O_O
+        return arraycount.Length; //kinda dissapointed as to how easy this was compared to my previous jank
        
     }
 }
