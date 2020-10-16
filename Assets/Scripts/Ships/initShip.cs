@@ -100,22 +100,9 @@ public class initShip : MonoBehaviour
         //END MVMNT STUFF
 =======
         //Camera Motion Stuff
-        if(Input.GetKey(KeyCode.W))
-            {
-                Camera.main.transform.position = new Vector3(0,Input.GetAxis("Vertical") += 0.01f,0);
-            }
-        if(Input.GetKey(KeyCode.A))
-            {
-                Camera.main.transform.position = new Vector3(Input.GetAxis("Horizontal") -= 0.01f,0,0);
-            }
-        if(Input.GetKey(KeyCode.S))
-            {
-                Camera.main.transform.position = new Vector3(0,Input.GetAxis("Vertical") -= 0.01f,0);
-            }
-        if(Input.GetKey(KeyCode.D))
-            {
-                Camera.main.transform.position = new Vector3(Input.GetAxis("Horizontal") += 0.01f,0,0);
-            }
+        float horizontalAxis = Input.GetAxis("Horizontal");
+        float verticalAxis = Input.GetAxis("Vertical");
+        camera.main.transform.position += (Vector3.up * verticalAxis + Vector3.right * horizontalAxis) * Time.Time.deltaTime;
 >>>>>>> Stashed changes
     }
 
