@@ -9,15 +9,15 @@ using UnityEditor;
 public class initShip : MonoBehaviour
 {
     [SerializeField]
-    Transform corePrefab = default;
+    GameObject corePrefab;
     [SerializeField]
-    Transform mouthPrefab = default;
+    GameObject mouthPrefab;
     [SerializeField]
-    Transform thrusterPrefab = default;
+    GameObject thrusterPrefab;
 
-    Transform core;
-    Transform mouth;
-    Transform thruster;
+    GameObject core;
+    GameObject mouth;
+    GameObject thruster;
 
     CoreTraits coreTraits = new CoreTraits();
     ThrusterTraits thrusterTraits = new ThrusterTraits();
@@ -37,7 +37,7 @@ public class initShip : MonoBehaviour
         //CAM STUFF
         if (followed == true)
         {
-            Camera.main.transform.SetParent(core);
+            Camera.main.transform.SetParent(core.transform);
             Camera.main.transform.localPosition = new Vector3(0, 0, -10);
         }
         else if (followed == false)
@@ -52,43 +52,17 @@ public class initShip : MonoBehaviour
     void Update()
     {
         //MVMNT STUFF V
+        Rigidbody2D coreRigid = core.GetComponent<Rigidbody2D>();
+
         sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass;
-        Vector2 curShipPos = core.localPosition;
+        Vector2 curShipPos = core.transform.localPosition;
         float senseDist = coreTraits.sensingRange;
-        Vector2 direction = core.rotation.eulerAngles;
+        Vector2 direction = core.transform.rotation.eulerAngles;
+        Vector2 shipVector = new Vector2(coreRigid.velocity.x, coreRigid.velocity.y);
         Quaternion goToAngle;
         Vector2 goToPoint = Vector2.one;
-        RaycastHit2D senseCast =
-            Physics2D.CircleCast(curShipPos, senseDist/2, direction, senseDist);
-
-        if(senseCast.collider != null)
-        {
-            Debug.DrawRay(curShipPos, new Vector2(0, 1*senseCast.distance));
-
-            goToPoint = senseCast.point;
-            goToAngle = Quaternion.FromToRotation(curShipPos, goToPoint);
-            core.transform.rotation = goToAngle;
-
-            Debug.Log("hit somethin!");
-        }
-        else if(senseCast.collider == null)
-        {
-            Debug.DrawRay(curShipPos, senseCast.point);
-            Debug.Log("Nothing hit");
-
-            goToPoint = new Vector3(randX(curShipPos, senseDist), randY(curShipPos, senseDist));
-            goToAngle = Quaternion.FromToRotation(curShipPos, goToPoint);
-            core.transform.rotation = goToAngle;
-        }
-        if (Vector2.Distance(curShipPos, goToPoint) > mouthTraits.consumeRadius)
-        {
-            core.transform.position +=
-                 new Vector3(0f, thrusterCount * (thrusterTraits.acc * sumMass), 0f);
-        }
-        else
-        {
-            EditorApplication.isPaused = true;
-        }
+        Collider2D senseCast =
+            Physics2D.OverlapCircle(curShipPos, senseDist/2);
 
         //END MVMNT STUFF
 
@@ -101,15 +75,15 @@ public class initShip : MonoBehaviour
     void SpawnShip()
     {
         core = Instantiate(corePrefab);
-        mouth = Instantiate(mouthPrefab); 
+        mouth  = Instantiate(mouthPrefab);
         thruster = Instantiate(thrusterPrefab);
 
-        mouth.SetParent(core);
-        thruster.SetParent(core);
+        mouth.transform.SetParent(core.transform);
+        thruster.transform.SetParent(core.transform);
 
-        mouth.localPosition = Vector2.up * 1;
-        thruster.localPosition = Vector2.down * 1;
-        core.position = new Vector2(25f,25f);
+        mouth.transform.localPosition = Vector2.up * 1;
+        thruster.transform.localPosition = Vector2.down * 1;
+        core.transform.position = new Vector2(25f,25f);
     }
     float randX(Vector2 origin, float senseDist)
     {
