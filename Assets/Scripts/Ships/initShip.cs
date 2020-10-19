@@ -25,9 +25,9 @@ public class initShip : MonoBehaviour
     int sumMass = 0;
     int mouthCount =1;
     int thrusterCount =1;
-    
+
     bool followed = true; //determines whether camera follows ship or not
-   
+
     // Start is called before the first frame update
     void Start()
     {
@@ -44,7 +44,7 @@ public class initShip : MonoBehaviour
         {
             return;
         }
-        //END CAM STUFF 
+        //END CAM STUFF
 
     }
 
@@ -95,13 +95,14 @@ public class initShip : MonoBehaviour
         //Camera Motion Stuff
         float horizontalAxis = Input.GetAxis("Horizontal");
         float verticalAxis = Input.GetAxis("Vertical");
-        Camera.main.transform.position += (Vector3.up * verticalAxis + Vector3.right * horizontalAxis) * Time.deltaTime;
+        float camSpeed = 5f;
+        Camera.main.transform.position += (Vector3.up * verticalAxis * camSpeed + Vector3.right * horizontalAxis * camSpeed) * Time.deltaTime;
     }
 
     void SpawnShip()
     {
         core = Instantiate(corePrefab);
-        mouth = Instantiate(mouthPrefab); 
+        mouth = Instantiate(mouthPrefab);
         thruster = Instantiate(thrusterPrefab);
 
         mouth.SetParent(core);
@@ -121,5 +122,3 @@ public class initShip : MonoBehaviour
         return Random.Range(origin.y * -1 * senseDist, origin.y * senseDist);
     }
 }
-
-
