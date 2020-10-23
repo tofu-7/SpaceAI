@@ -5,16 +5,16 @@ using System.Runtime;
 using UnityEditor;
 
 //Made by Scott
-/* OOOH boi, this i'm for the time being, essentially treating as the 'main' script for the ship, 
+/* OOOH boi, this i'm for the time being, essentially treating as the 'main' script for the ship,
 * only until we manage reproduction/various ship instances
 * hence, the name, initShip.cs
-* 
+*
 * I did a fucky wucky.
 * 99% chance here I bit off more than I can chew,
 * and will spend the coming days trying to break this up into seperate files and classes
-* 
+*
 * In addition to giving u the dumb stuf in Trello and breaking it up into more bite-sized tasks
-* cuz I be pulling an ori rn :( 
+* cuz I be pulling an ori rn :(
 **/
 public class initShip : MonoBehaviour
 {
@@ -26,17 +26,17 @@ public class initShip : MonoBehaviour
     [SerializeField]
     GameObject thrusterPrefab;
 
-     /* We then create new GameObject vars to use locally, 
+     /* We then create new GameObject vars to use locally,
       * because Unity doesn't like us directly using the Prefabs in here :(
       * **/
-    GameObject core; 
+    GameObject core;
     GameObject mouth;
     GameObject thruster;
 
     /* We then create our local trait classes based off the Prefabs trait classes
-     * essentially importing them. 
-     * 
-     * In addition to introducing our own vars for this script 
+     * essentially importing them.
+     *
+     * In addition to introducing our own vars for this script
      * (felt good, might move to a seperate file/class later idk)
      **/
     CoreTraits coreTraits = new CoreTraits();
@@ -49,12 +49,12 @@ public class initShip : MonoBehaviour
     /*Determines whether the main camera follows ship or not
      * Might produce bug or not with multiple ships idk :)
      **/
-    bool followed = true; 
-   
+    bool followed = true;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+
         SpawnShip();
 
         //CAM STUFF
@@ -67,7 +67,7 @@ public class initShip : MonoBehaviour
         {
             return;
         }
-        //END CAM STUFF 
+        //END CAM STUFF
 
     }
 
@@ -77,9 +77,9 @@ public class initShip : MonoBehaviour
     {
         //MVMNT STUFF V
         Rigidbody2D coreRigid = core.GetComponent<Rigidbody2D>();
-            
+
         //AAAHHHHHHHHH
-        sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass; 
+        sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass;
         Vector2 curShipPos = core.transform.localPosition;
         float senseDist = coreTraits.sensingRange;
         Vector2 direction = core.transform.rotation.eulerAngles;
@@ -90,22 +90,22 @@ public class initShip : MonoBehaviour
          *  gives us a collider type instead of a raycasting type
          **/
         Collider2D senseCast =
-            Physics2D.OverlapCircle(curShipPos, senseDist/2); 
+            Physics2D.OverlapCircle(curShipPos, senseDist/2);
 
         //END MVMNT STUFF
 
         //Camera Motion Stuff
         float horizontalAxis = Input.GetAxis("Horizontal");
         float verticalAxis = Input.GetAxis("Vertical");
-        Camera.main.transform.position += (Vector3.up * verticalAxis + Vector3.right * horizontalAxis) * Time.deltaTime; //u can prob figure these lines out
+        Camera.main.transform.position += 5f * (Vector3.up * verticalAxis + Vector3.right * horizontalAxis) * Time.deltaTime; //u can prob figure these lines out
     }
 
     /* This function is just a tidy little warm blanket to setup the stuff in the scene
      * While the prefabs enjoy a nice cup of cocoa and look out at the window at snow while being wrapped up in a blanket
      * we instantiate them here, and clone them.
-     * 
+     *
      * I then set the mouth and thruster as children of the core
-     * IT SHOULD BE NOTED HERE THAT THE CORE IS THE ONLY PREFAB WITH A RIGIDBODY, 
+     * IT SHOULD BE NOTED HERE THAT THE CORE IS THE ONLY PREFAB WITH A RIGIDBODY,
      * AND THUS ACTS AS THE CENTRAL RIGIDBODY OF EACH SHIP
      **/
     void SpawnShip()
@@ -124,8 +124,8 @@ public class initShip : MonoBehaviour
         thruster.transform.localPosition = Vector2.down * 1;
         core.transform.position = new Vector2(25f,25f);
     }
-    
-    /* This shit dummy thin, 
+
+    /* This shit dummy thin,
      * just generates rand pos for a ship to go to in the sensing range for a ship to go to when no resources are in the sensing range
      * Idk if this generates a bug or not with positioning ig we'll see :)
      **/
@@ -139,5 +139,3 @@ public class initShip : MonoBehaviour
         return Random.Range(origin.y * -1 * senseDist, origin.y * senseDist);
     }
 }
-
-
