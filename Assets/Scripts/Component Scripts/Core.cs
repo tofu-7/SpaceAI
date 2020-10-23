@@ -48,7 +48,7 @@ public class CoreTraits
         validPlace = new bool[4] { true, true, true, true }; //Top, Right, Bottom, Left
         offSpringCount = 1;
         offspringMutationChance = 0.15f;
-        sensingRange = 5f;
+        sensingRange = 25f;
         mass = 1;
         MaxStorageCap = 10;
         currentlyStored = 0;

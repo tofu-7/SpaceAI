@@ -42,9 +42,11 @@ public class initShip : MonoBehaviour
     CoreTraits coreTraits = new CoreTraits();
     ThrusterTraits thrusterTraits = new ThrusterTraits();
     MouthTraits mouthTraits = new MouthTraits();
+
     int sumMass = 0;
     int mouthCount =1;
     int thrusterCount =1;
+    int[] shipBounds = new int[4]{0,0,0,0};  //Top, Right, Bottom, Left (Includes core itself)
 
     /*Determines whether the main camera follows ship or not
      * Might produce bug or not with multiple ships idk :)
@@ -75,26 +77,66 @@ public class initShip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+<<<<<<< Updated upstream
         //MVMNT STUFF V
         Rigidbody2D coreRigid = core.GetComponent<Rigidbody2D>();
 
         //AAAHHHHHHHHH
         sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass;
         Vector2 curShipPos = core.transform.localPosition;
+=======
+        /*
+         //MVMNT STUFF V
+       
+            
+        //AAAHHHHHHHHH
+        sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass; 
+       
+>>>>>>> Stashed changes
         float senseDist = coreTraits.sensingRange;
         Vector2 direction = core.transform.rotation.eulerAngles;
         Vector2 shipVector = new Vector2(coreRigid.velocity.x, coreRigid.velocity.y);
         Quaternion goToAngle; //TODO: WIP
         Vector2 goToPoint = Vector2.one; //TODO: Fix this hella stupid shid
-        /* bruh this shit right here hella cringe,
+        * bruh this shit right here hella cringe,
          *  gives us a collider type instead of a raycasting type
-         **/
+         *
         Collider2D senseCast =
             Physics2D.OverlapCircle(curShipPos, senseDist/2);
 
         //END MVMNT STUFF
+        */
+
+        //Velocity and RigidBody Shiz
+        Vector2 curShipPos = core.transform.localPosition;
+        Rigidbody2D  coreBody = core.GetComponent<Rigidbody2D>();
+        Vector2 linearVel = coreBody.velocity;
+        float angularVel = coreBody.angularVelocity;
+        if(linearVel.magnitude > 0.01)Debug.DrawRay(new Vector2(curShipPos.x+(shipBounds[1]-shipBounds[3]), curShipPos.y+(shipBounds[0] - shipBounds[2])), linearVel*5, Color.red);
+
+        //Sensing vibe
+        float senseDist = coreTraits.sensingRange;
+        Collider2D[] senseCast =
+            Physics2D.OverlapCircleAll(curShipPos, senseDist/2);
+        Debug.Log(senseCast[0].attachedRigidbody);
+        for (int a = 0; a < 360; a = a + 1)
+        {
+            Debug.DrawLine(curShipPos, new Vector2((senseDist / 2 * Mathf.Cos(a)) + curShipPos.x, (senseDist / 2 * Mathf.Sin(a)) + curShipPos.y), Color.green);
+        }
+        for(int i = 0; i < senseCast.Length; i++)
+        { 
+            Debug.DrawLine(curShipPos, senseCast[i].transform.position);
+        }
+    //    if (senseCast[0].attachedRigidbody == null) ;
+
+        //Debug shiz
+        //   Debug.Log(coreBody.velocity.magnitude);
+        //  if (Input.GetKeyDown(UnityEngine.KeyCode.Space)) coreBody.AddTorque(20);
 
         //Camera Motion Stuff
+
+
+
         float horizontalAxis = Input.GetAxis("Horizontal");
         float verticalAxis = Input.GetAxis("Vertical");
         Camera.main.transform.position += 5f * (Vector3.up * verticalAxis + Vector3.right * horizontalAxis) * Time.deltaTime; //u can prob figure these lines out
@@ -120,8 +162,10 @@ public class initShip : MonoBehaviour
         /* Makes the offsets appropiate to where each component is
          * May not seem too important now, but will become vitally important later on once we add ship component grabbing
          **/
-        mouth.transform.localPosition = Vector2.up * 1;
-        thruster.transform.localPosition = Vector2.down * 1;
+        shipBounds[0]++;
+        mouth.transform.localPosition = Vector2.up * shipBounds[0];
+        shipBounds[2]++;
+        thruster.transform.localPosition = Vector2.down * shipBounds[2];
         core.transform.position = new Vector2(25f,25f);
     }
 
