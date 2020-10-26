@@ -14,7 +14,9 @@ using UnityEditor;
 * and will spend the coming days trying to break this up into seperate files and classes
 *
 * In addition to giving u the dumb stuf in Trello and breaking it up into more bite-sized tasks
-* cuz I be pulling an ori rn :(
+* 
+* TODO:
+* -Essentially copy this structure dingle-ass: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort?view=netcore-3.1
 **/
 public class initShip : MonoBehaviour
 {
@@ -26,9 +28,9 @@ public class initShip : MonoBehaviour
     [SerializeField]
     GameObject thrusterPrefab;
 
-     /* We then create new GameObject vars to use locally,
-      * because Unity doesn't like us directly using the Prefabs in here :(
-      * **/
+    /* We then create new GameObject vars to use locally,
+     * because Unity doesn't like us directly using the Prefabs in here :(
+     * **/
     GameObject core;
     GameObject mouth;
     GameObject thruster;
@@ -48,6 +50,8 @@ public class initShip : MonoBehaviour
     int thrusterCount =1;
     int[] shipBounds = new int[4]{0,0,0,0};  //Top, Right, Bottom, Left (Includes core itself)
 
+    Collider2D[] senseArr;
+    float senseDist;
     /*Determines whether the main camera follows ship or not
      * Might produce bug or not with multiple ships idk :)
      **/
@@ -77,14 +81,10 @@ public class initShip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-<<<<<<< Updated upstream
         //MVMNT STUFF V
-        Rigidbody2D coreRigid = core.GetComponent<Rigidbody2D>();
 
         //AAAHHHHHHHHH
         sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass;
-        Vector2 curShipPos = core.transform.localPosition;
-=======
         /*
          //MVMNT STUFF V
        
@@ -92,7 +92,6 @@ public class initShip : MonoBehaviour
         //AAAHHHHHHHHH
         sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass; 
        
->>>>>>> Stashed changes
         float senseDist = coreTraits.sensingRange;
         Vector2 direction = core.transform.rotation.eulerAngles;
         Vector2 shipVector = new Vector2(coreRigid.velocity.x, coreRigid.velocity.y);
@@ -115,23 +114,58 @@ public class initShip : MonoBehaviour
         if(linearVel.magnitude > 0.01)Debug.DrawRay(new Vector2(curShipPos.x+(shipBounds[1]-shipBounds[3]), curShipPos.y+(shipBounds[0] - shipBounds[2])), linearVel*5, Color.red);
 
         //Sensing vibe
-        float senseDist = coreTraits.sensingRange;
+        senseDist = coreTraits.sensingRange;
         Collider2D[] senseCast =
-            Physics2D.OverlapCircleAll(curShipPos, senseDist/2);
-        Debug.Log(senseCast[0].attachedRigidbody);
-        for (int a = 0; a < 360; a = a + 1)
-        {
-            Debug.DrawLine(curShipPos, new Vector2((senseDist / 2 * Mathf.Cos(a)) + curShipPos.x, (senseDist / 2 * Mathf.Sin(a)) + curShipPos.y), Color.green);
-        }
+            Physics2D.OverlapCircleAll(curShipPos, senseDist/2); //finds all colliders in a circle with a diameter = senseDist (Auto sorts by distance, shortest --> longest)
+        List<Collider2D> senseList = new List<Collider2D>();
+        
+
         for(int i = 0; i < senseCast.Length; i++)
-        { 
-            Debug.DrawLine(curShipPos, senseCast[i].transform.position);
+            if(senseCast[i].attachedRigidbody == null)
+                senseList.Add(senseCast[i]);
+
+        senseList.Sort(); //sort that flippity fracking mf'er into distance
+        senseArr = senseList.ToArray();
+ 
+        //Generate destination
+        Vector2 destShipPos = DestinationCalc(curShipPos);
+
+        //Rotate to destination
+        float thetaError = (360*Mathf.Atan2(destShipPos.y, destShipPos.x))/(2*Mathf.PI); //generates the theta val of the polar coord of the destination (w/ shipPos as origin) (IN DEG)
+        thetaError += 90;
+        Debug.Log(thetaError);
+        Debug.DrawLine(curShipPos, destShipPos, Color.cyan);
+
+        if (EuclidDist(curShipPos, destShipPos) > 2*mouthTraits.consumeRadius) //this is the loop to run until it gets close enough to c o n s u m e
+        {
+            //  angleError = Quaternion.Angle(core.transform.rotation, destShipPos); 
+            Quaternion errorQuat = Quaternion.Euler(core.transform.rotation.x, core.transform.rotation.y, thetaError);
+            core.transform.rotation = 
+                new Quaternion(core.transform.rotation.x + errorQuat.x*Time.deltaTime,
+                                core.transform.rotation.y +errorQuat.y * Time.deltaTime, 
+                                core.transform.rotation.z + errorQuat.z * Time.deltaTime, 
+                                core.transform.rotation.w + errorQuat.w * Time.deltaTime);
         }
-    //    if (senseCast[0].attachedRigidbody == null) ;
+
+
+
 
         //Debug shiz
-        //   Debug.Log(coreBody.velocity.magnitude);
-        //  if (Input.GetKeyDown(UnityEngine.KeyCode.Space)) coreBody.AddTorque(20);
+      //  Debug.Log(senseCast[3].attachedRigidbody /*use '== null' for detection*/);  //This outputs the rigidbody of the 4th nearest object
+
+     //   for (int a = 0; a < 360; a = a + 1) //Draw a circle cuz frickin unity doesn't have a command built in
+     //       Debug.DrawLine(curShipPos, new Vector2((senseDist / 2 * Mathf.Cos(a)) + curShipPos.x, (senseDist / 2 * Mathf.Sin(a)) + curShipPos.y), Color.green);
+
+     //   for(int i = 0; i < senseCast.Length; i++)
+     //       Debug.DrawLine(curShipPos, senseCast[i].transform.position, Color.red); //draws a line to all detected objects
+
+        for (int i = 1; i < senseArr.Length; i++)
+            Debug.DrawLine(curShipPos, senseArr[i].transform.position); //draws a line to all VALID detected objects (except for the closest)
+
+        //    if (senseCast[0].attachedRigidbody == null) ;
+
+       //    Debug.Log(coreBody.velocity.magnitude); //this just gives us our velocity in DebugLog
+       // if (Input.GetKeyDown(UnityEngine.KeyCode.Space)) coreBody.AddForce(new Vector2(20,0));
 
         //Camera Motion Stuff
 
@@ -149,7 +183,26 @@ public class initShip : MonoBehaviour
      * I then set the mouth and thruster as children of the core
      * IT SHOULD BE NOTED HERE THAT THE CORE IS THE ONLY PREFAB WITH A RIGIDBODY,
      * AND THUS ACTS AS THE CENTRAL RIGIDBODY OF EACH SHIP
+     * 
+     * THE RIGIDBODY IS THE SOUL OF EACH SHIP, AS ONLY ANIMATE OBJECTS HAVE THEM, AND THEY ONLY GET 1.
      **/
+
+    Vector2 DestinationCalc(Vector2 curShipPos)
+    {
+        Vector2 destShipPos;
+
+        if (this.senseArr.Length < 1) 
+            destShipPos = new Vector2(randX(curShipPos, this.senseDist / 2), randY(curShipPos, senseDist / 2));
+        else
+            destShipPos = senseArr[0].transform.position;
+        return destShipPos;
+    }
+    float EuclidDist(Vector2 startPos, Vector2 endPos)
+    {
+      float xDist = Mathf.Abs(endPos.x) - Mathf.Abs(startPos.x);
+        float yDist = Mathf.Abs(endPos.y) - Mathf.Abs(startPos.y);
+        return Mathf.Sqrt((xDist*xDist)+(yDist*yDist));
+    }
     void SpawnShip()
     {
         core = Instantiate(corePrefab);
@@ -173,13 +226,13 @@ public class initShip : MonoBehaviour
      * just generates rand pos for a ship to go to in the sensing range for a ship to go to when no resources are in the sensing range
      * Idk if this generates a bug or not with positioning ig we'll see :)
      **/
-    float randX(Vector2 origin, float senseDist)
+    float randX(Vector2 origin, float radius)
     {
-        return Random.Range(origin.x * -1 * senseDist, origin.x * senseDist);
+        return Random.Range(origin.x * -1 * radius, origin.x * radius);
 
     }
-    float randY(Vector2 origin, float senseDist)
+    float randY(Vector2 origin, float radius)
     {
-        return Random.Range(origin.y * -1 * senseDist, origin.y * senseDist);
+        return Random.Range(origin.y * -1 * radius, origin.y * radius);
     }
 }
