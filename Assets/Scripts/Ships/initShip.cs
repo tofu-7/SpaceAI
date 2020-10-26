@@ -124,6 +124,7 @@ public class initShip : MonoBehaviour
             if(senseCast[i].attachedRigidbody == null)
                 senseList.Add(senseCast[i]);
 
+        //TODO: Fix
         senseList.Sort(); //sort that flippity fracking mf'er into distance
         senseArr = senseList.ToArray();
  
@@ -188,7 +189,7 @@ public class initShip : MonoBehaviour
      **/
 
     Vector2 DestinationCalc(Vector2 curShipPos)
-    {
+    { //this is prob where things be gettin screwd up
         Vector2 destShipPos;
 
         if (this.senseArr.Length < 1) 
