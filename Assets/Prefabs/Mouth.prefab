@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3010028392085644627}
   - component: {fileID: 5781624507377270357}
   - component: {fileID: 8526133150374070727}
+  - component: {fileID: 4115116907194883946}
   m_Layer: 0
   m_Name: Mouth
   m_TagString: Untagged
@@ -121,3 +122,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 549b882d689e86e4980f1e77fb2ac652, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!50 &4115116907194883946
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2460392995875225748}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 1
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 6200000, guid: 0cf4d161a68acf442b237eb31effad7b, type: 2}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7

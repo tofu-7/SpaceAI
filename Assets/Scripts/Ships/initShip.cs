@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Runtime;
 using UnityEditor;
+using System;
 
 //Made by Scott
 /* OOOH boi, this i'm for the time being, essentially treating as the 'main' script for the ship,
@@ -51,7 +52,6 @@ public class initShip : MonoBehaviour
     int[] shipBounds = new int[4]{0,0,0,0};  //Top, Right, Bottom, Left (Includes core itself)
 
     Collider2D[] senseArr;
-    float senseDist;
     /*Determines whether the main camera follows ship or not
      * Might produce bug or not with multiple ships idk :)
      **/
@@ -109,14 +109,17 @@ public class initShip : MonoBehaviour
         //Velocity and RigidBody Shiz
         Vector2 curShipPos = core.transform.localPosition;
         Rigidbody2D  coreBody = core.GetComponent<Rigidbody2D>();
+        Rigidbody2D  thrusterBody = thruster.GetComponent<Rigidbody2D>();
+        Rigidbody2D  mouthBody = mouth.GetComponent<Rigidbody2D>();
         Vector2 linearVel = coreBody.velocity;
         float angularVel = coreBody.angularVelocity;
         if(linearVel.magnitude > 0.01)Debug.DrawRay(new Vector2(curShipPos.x+(shipBounds[1]-shipBounds[3]), curShipPos.y+(shipBounds[0] - shipBounds[2])), linearVel*5, Color.red);
 
-        //Sensing vibe
-        senseDist = coreTraits.sensingRange;
+        //Sensing vibe 
+        //TODO: Replace this shit with an expanding for loop, with an upper limit at senseRange bruh
+        float senseRange = coreTraits.sensingRange;
         Collider2D[] senseCast =
-            Physics2D.OverlapCircleAll(curShipPos, senseDist/2); //finds all colliders in a circle with a diameter = senseDist (Auto sorts by distance, shortest --> longest)
+            Physics2D.OverlapCircleAll(curShipPos, senseRange/2); //finds all colliders in a circle with a diameter = senseDist (Auto sorts by distance, shortest --> longest)
         List<Collider2D> senseList = new List<Collider2D>();
         
 
@@ -125,48 +128,96 @@ public class initShip : MonoBehaviour
                 senseList.Add(senseCast[i]);
 
         //TODO: Fix
-        senseList.Sort(); //sort that flippity fracking mf'er into distance
+        //sort that flippity fracking mf'er into distance
         senseArr = senseList.ToArray();
- 
-        //Generate destination
-        Vector2 destShipPos = DestinationCalc(curShipPos);
+        float[] senseDist =new float[senseArr.Length];
+        int nearInd = 0;
 
-        //Rotate to destination
-        float thetaError = (360*Mathf.Atan2(destShipPos.y, destShipPos.x))/(2*Mathf.PI); //generates the theta val of the polar coord of the destination (w/ shipPos as origin) (IN DEG)
-        thetaError += 90;
-        Debug.Log(thetaError);
-        Debug.DrawLine(curShipPos, destShipPos, Color.cyan);
-
-        if (EuclidDist(curShipPos, destShipPos) > 2*mouthTraits.consumeRadius) //this is the loop to run until it gets close enough to c o n s u m e
+        for (int i = 0; i < senseArr.Length; i++)
         {
-            //  angleError = Quaternion.Angle(core.transform.rotation, destShipPos); 
-            Quaternion errorQuat = Quaternion.Euler(core.transform.rotation.x, core.transform.rotation.y, thetaError);
-            core.transform.rotation = 
-                new Quaternion(core.transform.rotation.x + errorQuat.x*Time.deltaTime,
-                                core.transform.rotation.y +errorQuat.y * Time.deltaTime, 
-                                core.transform.rotation.z + errorQuat.z * Time.deltaTime, 
-                                core.transform.rotation.w + errorQuat.w * Time.deltaTime);
+            senseDist[i] = EuclidDist(curShipPos, senseArr[i].transform.position);
+        }
+        Array.Sort(senseDist);
+        for(int j = 0; j < senseArr.Length; j++)
+        {
+            if (EuclidDist(curShipPos, senseArr[j].transform.position) == senseDist[0])
+            {
+                nearInd = j;
+                break;
+            }
+            else
+                nearInd = 0;
         }
 
 
 
+        //Generate destination
+        Vector2 destShipPos = GenerateDest(curShipPos, senseRange, nearInd);
+
+
+        // if (destShipPos == Vector2.zero || destDist < mouthTraits.consumeRadius)
+        // destShipPos
+        float destDist = EuclidDist(destShipPos, curShipPos);
+        // Debug.Log((destShipPos.x - curShipPos.x)+ ", " + (destShipPos.y - curShipPos.y));
+
+        //Rotate to destination
+        Vector2 cartesianError = new Vector2(destShipPos.x - curShipPos.x, destShipPos.y - curShipPos.y);
+
+        //generates the theta val of the polar coord of the destination (w/ shipPos as origin) (IN DEG) cuz for us 0 = north, while for math nerds 0 = east
+        float relThetaFinal = (Mathf.Rad2Deg * Mathf.Atan2(cartesianError.y, cartesianError.x)) -90;
+
+        //For some weird reason unity is weird, this fixes it by inverting dir (clockwise = +, anticlockwise = -)
+        //possible angles  -180 < theta < 180
+        float thetaInit = core.transform.rotation.eulerAngles.z;
+        thetaInit = thetaInit / 180;
+        if(thetaInit > 1)
+        {
+            while (thetaInit > 0)
+                thetaInit--;
+        }
+        else if(thetaInit < -1)
+        {
+            while(thetaInit < 0)
+                thetaInit++;
+        }
+        thetaInit = thetaInit * 180;
+
+        float deltaTheta = relThetaFinal - thetaInit;
+
+        Debug.DrawLine(curShipPos, destShipPos, Color.cyan);
+        // Debug.Log("Current: " + thetaInit + " Final: " + relThetaFinal + " Delta: " + deltaTheta);
+        
+        if(destDist > mouthTraits.consumeRadius)
+            core.transform.rotation = Quaternion.Euler(new Vector3(0, 0, core.transform.rotation.eulerAngles.z + (deltaTheta * Time.deltaTime)));
+
+
+        //Movement noncents
+        if(destDist > mouthTraits.consumeRadius)
+        { //Fix these if statements to correct for velocity
+            if (Math.Abs(deltaTheta) < 90)
+                coreBody.AddForce(new Vector2(0f, 2 * Time.deltaTime));
+            else if (Math.Abs(deltaTheta) > 120)
+                coreBody.AddForce(new Vector2(0f, -2 * Time.deltaTime));
+        }
+        Debug.Log(coreBody.velocity + ", dist: " + destDist + ", theta: " + deltaTheta);
 
         //Debug shiz
-      //  Debug.Log(senseCast[3].attachedRigidbody /*use '== null' for detection*/);  //This outputs the rigidbody of the 4th nearest object
+        //  Debug.Log(senseCast[3].attachedRigidbody /*use '== null' for detection*/);  //This outputs the rigidbody of the 4th nearest object
 
-     //   for (int a = 0; a < 360; a = a + 1) //Draw a circle cuz frickin unity doesn't have a command built in
-     //       Debug.DrawLine(curShipPos, new Vector2((senseDist / 2 * Mathf.Cos(a)) + curShipPos.x, (senseDist / 2 * Mathf.Sin(a)) + curShipPos.y), Color.green);
+         //  for (int a = 0; a < 360; a = a + 5) //Draw a circle cuz frickin unity doesn't have a command built in
+          //     Debug.DrawLine(curShipPos, new Vector2((senseRange / 2 * Mathf.Cos(a)) + curShipPos.x, (senseRange / 2 * Mathf.Sin(a)) + curShipPos.y), Color.green);
 
-     //   for(int i = 0; i < senseCast.Length; i++)
-     //       Debug.DrawLine(curShipPos, senseCast[i].transform.position, Color.red); //draws a line to all detected objects
+        //   for(int i = 0; i < senseCast.Length; i++)
+        //       Debug.DrawLine(curShipPos, senseCast[i].transform.position, Color.red); //draws a line to all detected objects
 
-        for (int i = 1; i < senseArr.Length; i++)
-            Debug.DrawLine(curShipPos, senseArr[i].transform.position); //draws a line to all VALID detected objects (except for the closest)
-
+           for (int i = 0; i < nearInd; i++)
+                 Debug.DrawLine(curShipPos, senseArr[i].transform.position); //draws a line to all VALID detected objects (except for the closest)
+           for (int i = senseArr.Length -1; i > nearInd; i--)
+                Debug.DrawLine(curShipPos, senseArr[i].transform.position); //draws a line to all VALID detected objects (except for the closest)
         //    if (senseCast[0].attachedRigidbody == null) ;
 
-       //    Debug.Log(coreBody.velocity.magnitude); //this just gives us our velocity in DebugLog
-       // if (Input.GetKeyDown(UnityEngine.KeyCode.Space)) coreBody.AddForce(new Vector2(20,0));
+        //    Debug.Log(coreBody.velocity.magnitude); //this just gives us our velocity in DebugLog
+        if (Input.GetKeyDown(UnityEngine.KeyCode.Space)) thrusterBody.AddForce( new Vector2(20, 0));
 
         //Camera Motion Stuff
 
@@ -188,14 +239,14 @@ public class initShip : MonoBehaviour
      * THE RIGIDBODY IS THE SOUL OF EACH SHIP, AS ONLY ANIMATE OBJECTS HAVE THEM, AND THEY ONLY GET 1.
      **/
 
-    Vector2 DestinationCalc(Vector2 curShipPos)
+    Vector2 GenerateDest(Vector2 curShipPos, float senseRange, int n)
     { //this is prob where things be gettin screwd up
         Vector2 destShipPos;
 
         if (this.senseArr.Length < 1) 
-            destShipPos = new Vector2(randX(curShipPos, this.senseDist / 2), randY(curShipPos, senseDist / 2));
+            destShipPos = new Vector2(randX(curShipPos, senseRange / 2), randY(curShipPos, senseRange / 2));
         else
-            destShipPos = senseArr[0].transform.position;
+            destShipPos = senseArr[n].transform.position;
         return destShipPos;
     }
     float EuclidDist(Vector2 startPos, Vector2 endPos)
@@ -229,11 +280,11 @@ public class initShip : MonoBehaviour
      **/
     float randX(Vector2 origin, float radius)
     {
-        return Random.Range(origin.x * -1 * radius, origin.x * radius);
+        return UnityEngine.Random.Range(origin.x * -1 * radius, origin.x * radius);
 
     }
     float randY(Vector2 origin, float radius)
     {
-        return Random.Range(origin.y * -1 * radius, origin.y * radius);
+        return UnityEngine.Random.Range(origin.y * -1 * radius, origin.y * radius);
     }
 }

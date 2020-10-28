@@ -4,6 +4,6 @@ using UnityEngine;
 
 public static class GlobalEnvironmentLib
 {
-    public const float xBound = 50f;
-    public const float yBound = 50f;
+    public const float xBound = 100f;
+    public const float yBound = 100f;
 }
