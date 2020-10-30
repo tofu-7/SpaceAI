@@ -195,11 +195,21 @@ public class initShip : MonoBehaviour
         if(destDist > mouthTraits.consumeRadius)
         { //Fix these if statements to correct for velocity
             if (Math.Abs(deltaTheta) < 90)
-                coreBody.AddForce(new Vector2(0f, 2 * Time.deltaTime));
+            {
+                coreBody.AddRelativeForce(new Vector2(0, -2 * Time.deltaTime)); //accidently inverted (whoops)
+                Debug.Log("added + force");
+            }
             else if (Math.Abs(deltaTheta) > 120)
-                coreBody.AddForce(new Vector2(0f, -2 * Time.deltaTime));
+            {
+                coreBody.AddRelativeForce(new Vector2(0, 2 * Time.deltaTime));
+                Debug.Log("added - force");
+            }
+            else
+            {
+                Debug.Log("added 0 force");
+            }
         }
-        Debug.Log(coreBody.velocity + ", dist: " + destDist + ", theta: " + deltaTheta);
+       // Debug.Log(coreBody.velocity + ", dist: " + destDist + ", theta: " + deltaTheta);
 
         //Debug shiz
         //  Debug.Log(senseCast[3].attachedRigidbody /*use '== null' for detection*/);  //This outputs the rigidbody of the 4th nearest object
