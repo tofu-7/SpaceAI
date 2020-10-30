@@ -192,23 +192,8 @@ public class initShip : MonoBehaviour
 
 
         //Movement noncents
-        if(destDist > mouthTraits.consumeRadius)
-        { //Fix these if statements to correct for velocity
-            if (Math.Abs(deltaTheta) < 90)
-            {
-                coreBody.AddRelativeForce(new Vector2(0, -2 * Time.deltaTime)); //accidently inverted (whoops)
-                Debug.Log("added + force");
-            }
-            else if (Math.Abs(deltaTheta) > 120)
-            {
-                coreBody.AddRelativeForce(new Vector2(0, 2 * Time.deltaTime));
-                Debug.Log("added - force");
-            }
-            else
-            {
-                Debug.Log("added 0 force");
-            }
-        }
+
+
        // Debug.Log(coreBody.velocity + ", dist: " + destDist + ", theta: " + deltaTheta);
 
         //Debug shiz
@@ -227,8 +212,11 @@ public class initShip : MonoBehaviour
         //    if (senseCast[0].attachedRigidbody == null) ;
 
         //    Debug.Log(coreBody.velocity.magnitude); //this just gives us our velocity in DebugLog
-        if (Input.GetKeyDown(UnityEngine.KeyCode.Space)) thrusterBody.AddForce( new Vector2(20, 0));
-
+        if (Input.GetKeyDown(UnityEngine.KeyCode.Space))
+        {
+            coreBody.AddForceAtPosition(new Vector2(100, 100), curShipPos);
+            Debug.Log("pushed button");
+        }
         //Camera Motion Stuff
 
 

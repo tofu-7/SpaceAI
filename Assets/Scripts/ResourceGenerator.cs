@@ -8,7 +8,7 @@ using UnityEngine;
 public class ResourceGenerator : MonoBehaviour
 {
 
-    public static int ResourceCap = 50;
+    public static int ResourceCap = 100;
     public Transform resource;
 
     // Start is called before the first frame update
