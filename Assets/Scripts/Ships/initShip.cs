@@ -185,7 +185,7 @@ public class initShip : MonoBehaviour
         float deltaTheta = relThetaFinal - thetaInit;
 
         Debug.DrawLine(curShipPos, destShipPos, Color.cyan);
-        // Debug.Log("Current: " + thetaInit + " Final: " + relThetaFinal + " Delta: " + deltaTheta);
+         Debug.Log("Current: " + thetaInit + " Final: " + relThetaFinal + " Delta: " + deltaTheta);
         
         if(destDist > mouthTraits.consumeRadius)
             core.transform.rotation = Quaternion.Euler(new Vector3(0, 0, core.transform.rotation.eulerAngles.z + (deltaTheta * Time.deltaTime)));
@@ -215,7 +215,7 @@ public class initShip : MonoBehaviour
         if (Input.GetKeyDown(UnityEngine.KeyCode.Space))
         {
             coreBody.AddForceAtPosition(new Vector2(100, 100), curShipPos);
-            Debug.Log("pushed button");
+      //      Debug.Log("pushed button");
         }
         //Camera Motion Stuff
 
