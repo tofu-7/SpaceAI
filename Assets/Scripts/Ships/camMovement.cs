@@ -14,6 +14,8 @@ public class camMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+      //set camera as variable and set the starting fov to how the camera looks
+      //when the scene starts
       mainCamera = GetComponent<Camera>();
       startingFOV = mainCamera.fieldOfView;
     }
@@ -21,6 +23,7 @@ public class camMovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+      //keeps track of the current field of view
       currentFOV = mainCamera.fieldOfView;
 
       useWheel();
@@ -41,12 +44,13 @@ public class camMovement : MonoBehaviour
 
     public void useWheel()
     {
+
       currentFOV = mainCamera.fieldOfView;
-
+      //using GetAxis for direction of scroll wheel
       float scroll = Input.GetAxis("Mouse ScrollWheel");
-
+      //applying the scroll wheel to the current fov so it actually moves
       currentFOV += scroll * zoomRate;
-
+      //keep em in bounds of min-max
       currentFOV = Mathf.Clamp(currentFOV, minFOV, maxFOV);
       mainCamera.fieldOfView = currentFOV;
     }
