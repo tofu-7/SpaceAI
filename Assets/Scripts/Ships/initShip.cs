@@ -115,8 +115,7 @@ public class initShip : MonoBehaviour
         float angularVel = coreBody.angularVelocity;
         if(linearVel.magnitude > 0.01)Debug.DrawRay(new Vector2(curShipPos.x+(shipBounds[1]-shipBounds[3]), curShipPos.y+(shipBounds[0] - shipBounds[2])), linearVel*5, Color.red);
 
-        //Sensing vibe 
-        //TODO: Replace this shit with an expanding for loop, with an upper limit at senseRange bruh
+        //Sensing vibe
         float senseRange = coreTraits.sensingRange;
         Collider2D[] senseCast =
             Physics2D.OverlapCircleAll(curShipPos, senseRange/2); //finds all colliders in a circle with a diameter = senseDist (Auto sorts by distance, shortest --> longest)
