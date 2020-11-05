@@ -29,6 +29,7 @@ public class Part
     public int consumeRadius { get; set; }
     public int consumeMaxVel { get; set; }
     public int consumeRate { get; set; }
+    //Constructor
     public Part()
     {
     }
