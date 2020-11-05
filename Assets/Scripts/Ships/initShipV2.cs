@@ -13,7 +13,7 @@ public class Part
         */
     public int partType {get; set;}
     public int partGen {get; set;} //Generation (steps away from core)
-    public int parentside {get; set;} //Top, Right, Bottom, Left == 0, 1, 2, 3
+    public int[] parentside {get; set;} = new int[4]; //Top, Right, Bottom, Left
     public bool[] validPlace { get; set; } = new bool[4]; //Top, Right, Bottom, Left
     //Core-specific
     public int offspringCount { get; set; }
@@ -48,12 +48,19 @@ public class initShipV2 : MonoBehaviour
         parts.Add(new Part(){
             partType=0, 
             partGen=0,
-            validPlace= new bool[4]{true, true, true, true},
+            parentside = new int[4] { 0, 0, 0, 0 },
+            validPlace = new bool[4]{true, true, true, true},
             offspringCount=2,
             offspringMutationChance=0.5f,
             sensingRange=25,    
             MaxStorageCap=30,
             currentlyStored=0}); //TODO: Add Thruster, then parentside, to implement offset 
+        parts.Add(new Part(){
+            partType=2, 
+            partGen=1, 
+            parentside=new int[4]{1, 0, 0, 0},//Top, Right, Bottom, Left
+            validPlace= new bool[4]{false, true, false, true}, //Top, Right, Bottom, Left
+            acc = 1});
 
         Instantiator(parts);
     }
@@ -64,18 +71,35 @@ public class initShipV2 : MonoBehaviour
         
     }
     void Instantiator(List<Part> _parts){
-        int partsArr;
+        GameObject lastObj = null;
+
         for(int i = 0; i < _parts.Capacity; i++){
-            Part partVal = _parts[i];
-            if(partVal.partType == 0){
-                Instantiate(corePrefab);
+            Part curPart = _parts[i];
+            GameObject curObj;
+
+            if (curPart.partType == 0){
+                curObj = Instantiate(corePrefab);
             }
-            else if(partVal.partType == 1){
-                Instantiate(mouthPrefab);
+            else if(curPart.partType == 1){
+                curObj = Instantiate(mouthPrefab);
             }
-            else if(partVal.partType == 2){
-                Instantiate(thrusterPrefab);
+            else  /*(curPart.partType == 2)*/{
+                curObj = Instantiate(thrusterPrefab);
             }
+
+            if(curPart.partGen == 0)
+            {
+                curObj.transform.position = new Vector2(25, 25);
+            }
+            if (curPart.partGen > 0)
+            {   
+                curObj.transform.SetParent(lastObj.transform);
+                curObj.transform.localPosition = new Vector2(-(curPart.parentside[1] * curPart.partGen) + (curPart.parentside[3] * curPart.partGen),
+                                    -(curPart.parentside[0] * curPart.partGen) + (curPart.parentside[2] * curPart.partGen));
+            }
+            
+            Debug.Log(curObj.transform.localPosition);
+            lastObj = curObj;
         }
     }
 }
