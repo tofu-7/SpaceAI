@@ -19,6 +19,7 @@ using System;
 * TODO:
 * -Essentially copy this structure dingle-ass: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort?view=netcore-3.1
 **/
+
 public class initShip : MonoBehaviour
 {
     //[SerializeField] just means make this variable accesible from Unity GUI so I can click and drag our prefabs in
@@ -52,9 +53,7 @@ public class initShip : MonoBehaviour
     int[] shipBounds = new int[4]{0,0,0,0};  //Top, Right, Bottom, Left (Includes core itself)
 
     Collider2D[] senseArr;
-    /*Determines whether the main camera follows ship or not
-     * Might produce bug or not with multiple ships idk :)
-     **/
+    //Determines whether the main camera follows ship or not
     bool followed = true;
 
     // Start is called before the first frame update
@@ -200,7 +199,7 @@ public class initShip : MonoBehaviour
             destShipPos = senseArr[n].transform.position;
         return destShipPos;
     }
-    
+
     float EuclidDist(Vector2 startPos, Vector2 endPos)
     {
       float xDist = Mathf.Abs(endPos.x) - Mathf.Abs(startPos.x);
