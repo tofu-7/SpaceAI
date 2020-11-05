@@ -81,30 +81,7 @@ public class initShip : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //MVMNT STUFF V
-
-        //AAAHHHHHHHHH
         sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass;
-        /*
-         //MVMNT STUFF V
-       
-            
-        //AAAHHHHHHHHH
-        sumMass = coreTraits.mass + thrusterTraits.mass + mouthTraits.mass; 
-       
-        float senseDist = coreTraits.sensingRange;
-        Vector2 direction = core.transform.rotation.eulerAngles;
-        Vector2 shipVector = new Vector2(coreRigid.velocity.x, coreRigid.velocity.y);
-        Quaternion goToAngle; //TODO: WIP
-        Vector2 goToPoint = Vector2.one; //TODO: Fix this hella stupid shid
-        * bruh this shit right here hella cringe,
-         *  gives us a collider type instead of a raycasting type
-         *
-        Collider2D senseCast =
-            Physics2D.OverlapCircle(curShipPos, senseDist/2);
-
-        //END MVMNT STUFF
-        */
 
         //Velocity and RigidBody Shiz
         Vector2 curShipPos = core.transform.localPosition;
@@ -153,8 +130,6 @@ public class initShip : MonoBehaviour
         //Generate destination
         Vector2 destShipPos = GenerateDest(curShipPos, senseRange, nearInd);
 
-
-        // if (destShipPos == Vector2.zero || destDist < mouthTraits.consumeRadius)
         // destShipPos
         float destDist = EuclidDist(destShipPos, curShipPos);
         // Debug.Log((destShipPos.x - curShipPos.x)+ ", " + (destShipPos.y - curShipPos.y));
@@ -189,49 +164,16 @@ public class initShip : MonoBehaviour
         if(destDist > mouthTraits.consumeRadius)
             core.transform.rotation = Quaternion.Euler(new Vector3(0, 0, core.transform.rotation.eulerAngles.z + (deltaTheta * Time.deltaTime)));
 
-
-        //Movement noncents
-        if(destDist > mouthTraits.consumeRadius)
-        { //Fix these if statements to correct for velocity
-            if (Math.Abs(deltaTheta) < 90)
-            {
-                coreBody.AddRelativeForce(new Vector2(0, -2 * Time.deltaTime)); //accidently inverted (whoops)
-                Debug.Log("added + force");
-            }
-            else if (Math.Abs(deltaTheta) > 120)
-            {
-                coreBody.AddRelativeForce(new Vector2(0, 2 * Time.deltaTime));
-                Debug.Log("added - force");
-            }
-            else
-            {
-                Debug.Log("added 0 force");
-            }
-        }
        // Debug.Log(coreBody.velocity + ", dist: " + destDist + ", theta: " + deltaTheta);
-
-        //Debug shiz
-        //  Debug.Log(senseCast[3].attachedRigidbody /*use '== null' for detection*/);  //This outputs the rigidbody of the 4th nearest object
-
-         //  for (int a = 0; a < 360; a = a + 5) //Draw a circle cuz frickin unity doesn't have a command built in
-          //     Debug.DrawLine(curShipPos, new Vector2((senseRange / 2 * Mathf.Cos(a)) + curShipPos.x, (senseRange / 2 * Mathf.Sin(a)) + curShipPos.y), Color.green);
-
-        //   for(int i = 0; i < senseCast.Length; i++)
-        //       Debug.DrawLine(curShipPos, senseCast[i].transform.position, Color.red); //draws a line to all detected objects
 
            for (int i = 0; i < nearInd; i++)
                  Debug.DrawLine(curShipPos, senseArr[i].transform.position); //draws a line to all VALID detected objects (except for the closest)
            for (int i = senseArr.Length -1; i > nearInd; i--)
                 Debug.DrawLine(curShipPos, senseArr[i].transform.position); //draws a line to all VALID detected objects (except for the closest)
-        //    if (senseCast[0].attachedRigidbody == null) ;
 
-        //    Debug.Log(coreBody.velocity.magnitude); //this just gives us our velocity in DebugLog
         if (Input.GetKeyDown(UnityEngine.KeyCode.Space)) thrusterBody.AddForce( new Vector2(20, 0));
 
         //Camera Motion Stuff
-
-
-
         float horizontalAxis = Input.GetAxis("Horizontal");
         float verticalAxis = Input.GetAxis("Vertical");
         Camera.main.transform.position += 5f * (Vector3.up * verticalAxis + Vector3.right * horizontalAxis) * Time.deltaTime; //u can prob figure these lines out
@@ -258,12 +200,14 @@ public class initShip : MonoBehaviour
             destShipPos = senseArr[n].transform.position;
         return destShipPos;
     }
+    
     float EuclidDist(Vector2 startPos, Vector2 endPos)
     {
       float xDist = Mathf.Abs(endPos.x) - Mathf.Abs(startPos.x);
         float yDist = Mathf.Abs(endPos.y) - Mathf.Abs(startPos.y);
         return Mathf.Sqrt((xDist*xDist)+(yDist*yDist));
     }
+
     void SpawnShip()
     {
         core = Instantiate(corePrefab);
@@ -292,6 +236,7 @@ public class initShip : MonoBehaviour
         return UnityEngine.Random.Range(origin.x * -1 * radius, origin.x * radius);
 
     }
+
     float randY(Vector2 origin, float radius)
     {
         return UnityEngine.Random.Range(origin.y * -1 * radius, origin.y * radius);
