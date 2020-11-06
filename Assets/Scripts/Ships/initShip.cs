@@ -59,21 +59,7 @@ public class initShip : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-
         SpawnShip();
-
-        //CAM STUFF
-        if (followed == true)
-        {
-            Camera.main.transform.SetParent(core.transform);
-            Camera.main.transform.localPosition = new Vector3(0, 0, -10); //Z axis is actually counter-intuitively reverse (+ is further from cam, - is closer)
-        }
-        else if (followed == false)
-        {
-            return;
-        }
-        //END CAM STUFF
-
     }
 
     //Ight g, everything here is a WIP and fucked up, and will prob get deleted and replaced in the coming days/hours

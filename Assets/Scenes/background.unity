@@ -241,6 +241,8 @@ MonoBehaviour:
     type: 3}
   thrusterPrefab: {fileID: 8103341417732393311, guid: 8199f3358f491ce4b8782d08e822f358,
     type: 3}
+  isFollowed: 1
+  _cam: {fileID: 1521147520}
 --- !u!114 &2052196997
 MonoBehaviour:
   m_ObjectHideFlags: 0
