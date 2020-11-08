@@ -232,17 +232,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2052196995}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3028697c7e22a9f49a5471aebfa501a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 000653893a9b9f846aac337fdae2b86a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corePrefab: {fileID: 6371139887797556440, guid: 6e7bb83ef3d72bf41a6d0900d90b7cc0,
-    type: 3}
-  mouthPrefab: {fileID: 2460392995875225748, guid: 37b38a502944dd14e98a9c5d378cef46,
-    type: 3}
-  thrusterPrefab: {fileID: 8103341417732393311, guid: 8199f3358f491ce4b8782d08e822f358,
-    type: 3}
-  isFollowed: 1
-  _cam: {fileID: 1521147520}
 --- !u!114 &2052196997
 MonoBehaviour:
   m_ObjectHideFlags: 0
