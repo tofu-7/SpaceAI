@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class initShipV3 : MonoBehaviour
+public class initShipMech : MonoBehaviour
 {
     // Start is called before the first frame update
     void Start()
