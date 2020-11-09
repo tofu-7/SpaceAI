@@ -90,13 +90,7 @@ public class initShip : MonoBehaviour
             EditorApplication.isPaused = true;
         }
 
-        //END MVMNT STUFF
-
-        //Camera Motion Stuff
-        float horizontalAxis = Input.GetAxis("Horizontal");
-        float verticalAxis = Input.GetAxis("Vertical");
-        float camSpeed = 5f - (mouthCount + thrusterCount/4);
-        Camera.main.transform.position += (Vector3.up * verticalAxis * camSpeed + Vector3.right * horizontalAxis * camSpeed) * Time.deltaTime;
+        //END MVMNT STUFF        
     }
 
     void SpawnShip()

@@ -28,18 +28,20 @@ public class camMovement : MonoBehaviour
 
       useWheel();
 
-    /*  if(Input.GetKey(KeyCode.I))
-      {
-        currentFOV -= zoomRate;
-      }
+      OnMouseDown();
 
-      if(Input.GetKey(KeyCode.O))
+    }
+
+    void OnMouseDown()
+    {
+      float horizontalAxis = Input.GetAxis("Mouse X");
+      float verticalAxis = Input.GetAxis("Mouse Y");
+      float camSpeed = 5f;
+
+      if(Input.GetMouseButton(0))
       {
-        currentFOV += zoomRate;
+        mainCamera.transform.position += (Vector3.up * -verticalAxis * camSpeed + Vector3.right * -horizontalAxis * camSpeed) * Time.deltaTime;
       }
-      currentFOV = Mathf.Clamp(currentFOV, minFOV, maxFOV);
-      mainCamera.fieldOfView = currentFOV;
-      */
     }
 
     public void useWheel()
