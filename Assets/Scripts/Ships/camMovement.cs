@@ -11,38 +11,48 @@ public class camMovement : MonoBehaviour
   public float zoomRate;
 
   private float currentFOV;
+  private float camSpeed = 7f;
     // Start is called before the first frame update
     void Start()
     {
       //set camera as variable and set the starting fov to how the camera looks
       //when the scene starts
-      mainCamera = GetComponent<Camera>();
+      mainCamera = Camera.main;
       startingFOV = mainCamera.fieldOfView;
     }
 
     // Update is called once per frame
     void Update()
     {
+      if(Input.GetKey(KeyCode.Q) && mainCamera.transform.parent != null)
+      {
+        mainCamera.transform.parent = null;
+      }
+      else if(Input.GetKey(KeyCode.Q) && mainCamera.transform.parent == null)
+      {
+
+      }
       //keeps track of the current field of view
       currentFOV = mainCamera.fieldOfView;
 
       useWheel();
 
-      OnMouseDown();
+
 
     }
-
-    void OnMouseDown()
+    void FixedUpdate()
     {
-      float horizontalAxis = Input.GetAxis("Mouse X");
-      float verticalAxis = Input.GetAxis("Mouse Y");
-      float camSpeed = 5f;
+      float horizontalAxis = Input.GetAxisRaw("Mouse X");
+      float verticalAxis = Input.GetAxisRaw("Mouse Y");
+
 
       if(Input.GetMouseButton(0))
       {
         mainCamera.transform.position += (Vector3.up * -verticalAxis * camSpeed + Vector3.right * -horizontalAxis * camSpeed) * Time.deltaTime;
       }
+
     }
+
 
     public void useWheel()
     {
