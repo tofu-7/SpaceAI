@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+/*
 public class Part
 {             
     //Traits of all parts
@@ -10,7 +10,7 @@ public class Part
         Core = 0
         Mouth = 1
         Thruster = 2
-        */
+        *//*
     public int partType {get; set;}
     public int partGen {get; set;} //Generation (steps away from core)
     public int parentSide {get; set;} //Top, Right, Bottom, Left
@@ -60,6 +60,7 @@ public class initShipV2 : MonoBehaviour
          *    ...|1|...
          **/
         //Add new starting parts here
+        /*
         parts.Add(new Part()
         { //ind == 0
             partType=0, //check initializer in class for info
@@ -167,7 +168,7 @@ public class initShipV2 : MonoBehaviour
          * =Expand core collider as ship expands
          * =Adjust mass accordingly as ships mass grows
          * -Apply proper forces to core's rigid body as if it were the thrusters
-        **/
+        **//*
         for (int i = 0; i < _partsArr.Length; i++)
         {
             if (_parts[i].partType == 2) {
@@ -222,6 +223,7 @@ public class initShipV2 : MonoBehaviour
             else if (curPart.partType == 1)
                 curPart.partObj = Instantiate(mouthPrefab);
             else  /*(curPart.partType == 2)*/ //last one in list has to be else, needs to be changed if new part types are added
+/*
                 curPart.partObj = Instantiate(thrusterPrefab);
 
             curObj = curPart.partObj; //shortcut variable
@@ -289,3 +291,4 @@ public class initShipV2 : MonoBehaviour
             return;
     }
 }
+*/
