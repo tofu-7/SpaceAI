@@ -18,8 +18,7 @@ using System;
 *
 * TODO:
 * -Essentially copy this structure dingle-ass: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort?view=netcore-3.1
-**/
-
+**//*
 public class initShip : MonoBehaviour
 {
     //[SerializeField] just means make this variable accesible from Unity GUI so I can click and drag our prefabs in
@@ -32,7 +31,7 @@ public class initShip : MonoBehaviour
 
     /* We then create new GameObject vars to use locally,
      * because Unity doesn't like us directly using the Prefabs in here :(
-     * **/
+     * **//*
     GameObject core;
     GameObject mouth;
     GameObject thruster;
@@ -42,7 +41,7 @@ public class initShip : MonoBehaviour
      *
      * In addition to introducing our own vars for this script
      * (felt good, might move to a seperate file/class later idk)
-     **/
+     **//*
     CoreTraits coreTraits = new CoreTraits();
     ThrusterTraits thrusterTraits = new ThrusterTraits();
     MouthTraits mouthTraits = new MouthTraits();
@@ -186,7 +185,7 @@ public class initShip : MonoBehaviour
      * AND THUS ACTS AS THE CENTRAL RIGIDBODY OF EACH SHIP
      *
      * THE RIGIDBODY IS THE SOUL OF EACH SHIP, AS ONLY ANIMATE OBJECTS HAVE THEM, AND THEY ONLY GET 1.
-     **/
+     **//*
 
     Vector2 GenerateDest(Vector2 curShipPos, float senseRange, int n)
     { //this is prob where things be gettin screwd up
@@ -217,7 +216,7 @@ public class initShip : MonoBehaviour
 
         /* Makes the offsets appropiate to where each component is
          * May not seem too important now, but will become vitally important later on once we add ship component grabbing
-         **/
+         **//*
         shipBounds[0]++;
         mouth.transform.localPosition = Vector2.up * shipBounds[0];
         shipBounds[2]++;
@@ -228,7 +227,7 @@ public class initShip : MonoBehaviour
     /* This shit dummy thin,
      * just generates rand pos for a ship to go to in the sensing range for a ship to go to when no resources are in the sensing range
      * Idk if this generates a bug or not with positioning ig we'll see :)
-     **/
+     **//*
     float randX(Vector2 origin, float radius)
     {
         return UnityEngine.Random.Range(origin.x * -1 * radius, origin.x * radius);
@@ -240,3 +239,4 @@ public class initShip : MonoBehaviour
         return UnityEngine.Random.Range(origin.y * -1 * radius, origin.y * radius);
     }
 }
+*/
