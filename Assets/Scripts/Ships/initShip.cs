@@ -15,7 +15,7 @@ using System;
 * and will spend the coming days trying to break this up into seperate files and classes
 *
 * In addition to giving u the dumb stuf in Trello and breaking it up into more bite-sized tasks
-* 
+*
 * TODO:
 * -Essentially copy this structure dingle-ass: https://docs.microsoft.com/en-us/dotnet/api/system.collections.generic.list-1.sort?view=netcore-3.1
 **/
@@ -60,6 +60,19 @@ public class initShip : MonoBehaviour
     void Start()
     {
         SpawnShip();
+
+        //CAM STUFF
+        if (followed == true)
+        {
+            Camera.main.transform.SetParent(core);
+            Camera.main.transform.localPosition = new Vector3(0, 0, -10);
+        }
+        else if (followed == false)
+        {
+            return;
+        }
+        //END CAM STUFF
+
     }
 
     //Ight g, everything here is a WIP and fucked up, and will prob get deleted and replaced in the coming days/hours
@@ -82,7 +95,7 @@ public class initShip : MonoBehaviour
         Collider2D[] senseCast =
             Physics2D.OverlapCircleAll(curShipPos, senseRange/2); //finds all colliders in a circle with a diameter = senseDist (Auto sorts by distance, shortest --> longest)
         List<Collider2D> senseList = new List<Collider2D>();
-        
+
 
         for(int i = 0; i < senseCast.Length; i++)
             if(senseCast[i].attachedRigidbody == null)
@@ -145,7 +158,7 @@ public class initShip : MonoBehaviour
 
         Debug.DrawLine(curShipPos, destShipPos, Color.cyan);
         // Debug.Log("Current: " + thetaInit + " Final: " + relThetaFinal + " Delta: " + deltaTheta);
-        
+
         if(destDist > mouthTraits.consumeRadius)
             core.transform.rotation = Quaternion.Euler(new Vector3(0, 0, core.transform.rotation.eulerAngles.z + (deltaTheta * Time.deltaTime)));
 
@@ -171,7 +184,7 @@ public class initShip : MonoBehaviour
      * I then set the mouth and thruster as children of the core
      * IT SHOULD BE NOTED HERE THAT THE CORE IS THE ONLY PREFAB WITH A RIGIDBODY,
      * AND THUS ACTS AS THE CENTRAL RIGIDBODY OF EACH SHIP
-     * 
+     *
      * THE RIGIDBODY IS THE SOUL OF EACH SHIP, AS ONLY ANIMATE OBJECTS HAVE THEM, AND THEY ONLY GET 1.
      **/
 
@@ -179,7 +192,7 @@ public class initShip : MonoBehaviour
     { //this is prob where things be gettin screwd up
         Vector2 destShipPos;
 
-        if (this.senseArr.Length < 1) 
+        if (this.senseArr.Length < 1)
             destShipPos = new Vector2(randX(curShipPos, senseRange / 2), randY(curShipPos, senseRange / 2));
         else
             destShipPos = senseArr[n].transform.position;
@@ -196,7 +209,7 @@ public class initShip : MonoBehaviour
     void SpawnShip()
     {
         core = Instantiate(corePrefab);
-        mouth  = Instantiate(mouthPrefab);
+        mouth = Instantiate(mouthPrefab);
         thruster = Instantiate(thrusterPrefab);
 
         mouth.transform.SetParent(core.transform);
