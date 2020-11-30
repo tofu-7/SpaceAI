@@ -252,14 +252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3028697c7e22a9f49a5471aebfa501a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corePrefab: {fileID: 6371139887797556440, guid: 6e7bb83ef3d72bf41a6d0900d90b7cc0,
-    type: 3}
-  mouthPrefab: {fileID: 2460392995875225748, guid: 37b38a502944dd14e98a9c5d378cef46,
-    type: 3}
-  thrusterPrefab: {fileID: 8103341417732393311, guid: 8199f3358f491ce4b8782d08e822f358,
-    type: 3}
-  isFollowed: 1
-  _cam: {fileID: 1521147520}
 --- !u!114 &2052196997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1014,6 +1006,7 @@ GameObject:
   - component: {fileID: 8577251945805245636}
   - component: {fileID: 8577251945805245635}
   - component: {fileID: 8577251945805245634}
+  - component: {fileID: 8577251945805245642}
   m_Layer: 0
   m_Name: Core
   m_TagString: Untagged
@@ -1303,6 +1296,19 @@ CompositeCollider2D:
       - {x: -0.4999414, y: -1.5}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+--- !u!114 &8577251945805245642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577251945805245633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: edc93097cb0ba9647b035d030bcc18fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  nearResource: {fileID: 0}
 --- !u!4 &9012629421896908422
 Transform:
   m_ObjectHideFlags: 0
