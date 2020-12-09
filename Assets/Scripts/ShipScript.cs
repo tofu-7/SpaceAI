@@ -1,79 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-public class Thruster
-{
-    //Traits of all thrusters
-    public Vector2 relPos {get; set;} //Position relative to core (in increments of unity units = 64px)
-public int facing {get; set; } //FIRES: [Forward, Back, Left, Right] 
 
-    public Thruster()
-    {
-    }
-}
-public class Mouth
-{
-    //Traits of all thrusters
-    public Vector2 relPos { get; set; } //Position relative to core (in increments of unity units = 64px)
-    public int facing { get; set; } //EATS: [Forward, Back, Left, Right] 
-
-    public Mouth()
-    {
-    }
-}
 
 public class ShipScript : MonoBehaviour
 {
-    [SerializeField]
-    public GameObject coreObj;
+    Camera cam;
+    Vector3 mousePos = Vector3.zero; //unfortunately has to be global so we don't reset to 0 everytime we release mouse button
 
-    List<Thruster> thrusters = new List<Thruster>();
-    List<Mouth> mouths = new List<Mouth>();
     void Start()
     {
-        //RELATIVE TO CORE NOT PARENT, YOU TURD STAIN
-        thrusters.Add(new Thruster()
-        { relPos = new Vector2(0, -1), facing = 1 }); //bottom one
+        cam = Camera.main;
+    }
+    void Update()
+    {
+        GameObject CoreObj = gameObject;
+        if (Input.GetMouseButtonUp(1)) //On right click release do:
+        {
+            Ray ray = cam.ScreenPointToRay(Input.mousePosition); //Calculate a ray from where we (the person looking at the monitor) see to where the cursor is on click
 
-        thrusters.Add(new Thruster()
-        { relPos = new Vector2(-1, 0), facing = 2 }); //left one
-            thrusters.Add(new Thruster()
-            { relPos = new Vector2(-1, 1), facing = 0 }); //top left one
+            mousePos = ray.direction; //transfers that ray into mousepos
+            mousePos.z = 0; //this is to make the spat out vector on the same plane as our ship
+            mousePos.x *= 10; //this is to convert to in-game units
+            mousePos.y *= 10;
 
-        thrusters.Add(new Thruster()
-        { relPos = new Vector2(1, 0), facing = 3 }); //right one
-            thrusters.Add(new Thruster() 
-            { relPos = new Vector2(1, 1), facing = 0 }); //top right one
-        /**//**/
-        mouths.Add(new Mouth()
-        { relPos = new Vector2(0, 1), facing = 0}); //top jop topperson one
+            mousePos.x += transform.position.x; //this is to go from relative to core -> world coords
+            mousePos.y += transform.position.y;
+        }
+         
+        Debug.Log(Input.mousePosition + ", " + mousePos); //Just a debug
+        Debug.DrawLine(transform.position, mousePos, Color.green); //Just a debug
+        CamMove();
     }
 
-void Update()
+    bool[] wasdInput() //Realized the old WasdInputDebug.cs was unneccessary and could be kerplunked into a function (Don't use it here, just an old code hoarder)
     {
-        Rigidbody2D coreRb = coreObj.GetComponent<Rigidbody2D>();
-        CompositeCollider2D coreCol = coreObj.GetComponent<CompositeCollider2D>();
-        Vector2 cum = coreRb.centerOfMass; //we use cum as our start point
+        bool wtrig = Input.GetKey("w");
+        bool atrig = Input.GetKey("a");
+        bool strig = Input.GetKey("s");
+        bool dtrig = Input.GetKey("d");
+        bool[] trigList = { wtrig, atrig, strig, dtrig };
 
-        Thruster[] thrustArr = thrusters.ToArray();
-        Mouth[] mouthArr = mouths.ToArray();
-        int partCount = thrustArr.Length + mouthArr.Length + 1; 
-
-
-        coreRb.mass = partCount; //we're assuming all of our parts have a mass of 1
-        for(int i = 0; i < thrustArr.Length; i++)
-		{
-            cum.x += thrustArr[i].relPos.x;
-            cum.y += thrustArr[i].relPos.y;
-        }
-        for (int j = 0; j < mouthArr.Length; j++)
-        {
-            cum.x += mouthArr[j].relPos.x;
-            cum.y += mouthArr[j].relPos.y;
-        }
-
-        cum.x /= partCount;
-        cum.y /= partCount;
-        Debug.Log(cum);
+        return trigList;
+    }
+    void CamMove() //Thanks to this function the camera no longer has to be the child of the ship (helpful somehow?)
+    {
+        cam.transform.position = new Vector3(
+            transform.position.x,
+            transform.position.y,
+            transform.position.z - 10);
     }
 }

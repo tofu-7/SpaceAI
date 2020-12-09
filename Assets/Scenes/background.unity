@@ -199,11 +199,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1521147518}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 25, y: 25, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 3102216689569799751}
-  m_RootOrder: 2
+  m_Father: {fileID: 0}
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1521147522
 MonoBehaviour:
@@ -232,7 +232,7 @@ GameObject:
   - component: {fileID: 2052196998}
   - component: {fileID: 2052196997}
   - component: {fileID: 2052196996}
-  - component: {fileID: 2052197000}
+  - component: {fileID: 2052197001}
   m_Layer: 0
   m_Name: penis penis penis balls balls dicks bruh
   m_TagString: Untagged
@@ -252,14 +252,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3028697c7e22a9f49a5471aebfa501a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  corePrefab: {fileID: 6371139887797556440, guid: 6e7bb83ef3d72bf41a6d0900d90b7cc0,
-    type: 3}
-  mouthPrefab: {fileID: 2460392995875225748, guid: 37b38a502944dd14e98a9c5d378cef46,
-    type: 3}
-  thrusterPrefab: {fileID: 8103341417732393311, guid: 8199f3358f491ce4b8782d08e822f358,
-    type: 3}
-  isFollowed: 1
-  _cam: {fileID: 1521147520}
 --- !u!114 &2052196997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -300,7 +292,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2052197000
+--- !u!114 &2052197001
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -309,10 +301,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2052196995}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2c7bc414d8a851240a1f3bbb257fc60c, type: 3}
+  m_Script: {fileID: 11500000, guid: 88dd2270504908e4db4496f83905bf52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coreObj: {fileID: 8577251945805245633}
 --- !u!1 &2114817204
 GameObject:
   m_ObjectHideFlags: 0
@@ -563,7 +554,7 @@ Transform:
   m_Children:
   - {fileID: 9012629421896908422}
   m_Father: {fileID: 3102216689569799751}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 90}
 --- !u!4 &2651372170776240513
 Transform:
@@ -592,7 +583,6 @@ Transform:
   m_Children:
   - {fileID: 2049838112014710604}
   - {fileID: 1166898029370264738}
-  - {fileID: 1521147521}
   - {fileID: 2071937145274473641}
   - {fileID: 5605139834416400797}
   m_Father: {fileID: 0}
@@ -746,7 +736,7 @@ Transform:
   m_Children:
   - {fileID: 2651372170776240513}
   m_Father: {fileID: 3102216689569799751}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!1 &5792795828212629951
 GameObject:
@@ -1014,6 +1004,8 @@ GameObject:
   - component: {fileID: 8577251945805245636}
   - component: {fileID: 8577251945805245635}
   - component: {fileID: 8577251945805245634}
+  - component: {fileID: 8577251945805245643}
+  - component: {fileID: 8577251945805245642}
   m_Layer: 0
   m_Name: Core
   m_TagString: Untagged
@@ -1303,6 +1295,30 @@ CompositeCollider2D:
       - {x: -0.4999414, y: -1.5}
   m_VertexDistance: 0.0005
   m_OffsetDistance: 0.00005
+--- !u!114 &8577251945805245642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577251945805245633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c7bc414d8a851240a1f3bbb257fc60c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8577251945805245643
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8577251945805245633}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 895fddf3c83c8684b9602fcccf000ecb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &9012629421896908422
 Transform:
   m_ObjectHideFlags: 0
