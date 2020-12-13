@@ -4,28 +4,17 @@ using UnityEngine;
 
 public class offScreenArrow : MonoBehaviour
 {
-    private Vector3 targetPosition;
-    private RectTransform pointerRectTransform;
+    public GameObject core;
 
-    void Start()
-    {
-      targetPosition = new Vector3(0,0,0);
-      pointerRectTransform = transform.Find("Pointer").GetComponent<RectTransform>();
-
-    }
-
-    // Update is called once per frame
     void Update()
     {
-        Vector3 toPosition = targetPosition;
-        Vector3 fromPosition = Camera.main.transform.position;
-        fromPosition.z = 0f;
-        Vector3 dir = (toPosition - fromPosition).normalized;
-        float angle = (Mathf.Atan2(dir.y,dir.x) * Mathf.Rad2Deg) % 360;
+        Vector3 screenCenter = new Vector3(Screen.width, Screen.height,0) /2;
+        Vector3 targetPositionScreenPoint = Camera.main.WorldToScreenPoint(core.transform.position);
 
-        pointerRectTransform.localEulerAngles = new Vector3(0,0,angle);
-        Vector3 targetPositionScreenPoint = Camera.main.WorldToScreenPoint(targetPosition);
-        bool isOffScreen = targetPositionScreenPoint.x <=0 || targetPositionScreenPoint.x >= Screen.width || targetPositionScreenPoint.y <= 0 || targetPositionScreenPoint.y >= Screen.height;
+        Vector3 dir = (targetPositionScreenPoint - screenCenter).normalized;
+        float angle = Mathf.Atan2(dir.y,dir.x);
 
+        transform.position = screenCenter + new Vector3(Mathf.Cos(angle) * screenCenter.x, Mathf.Sin(angle) * screenCenter.y, 0);
+        transform.rotation = Quaternion.Euler(0, 0, angle * Mathf.Rad2Deg);
     }
 }
