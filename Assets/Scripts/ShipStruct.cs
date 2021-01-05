@@ -19,47 +19,36 @@ public class Mouth
     //Traits of all Mouths
     public Vector2 relPos { get; set; } //Position relative to core (in increments of unity units = 64px)
     public int facing { get; set; } //EATS: [Forward, Back, Left, Right] 
-
+    public float consumeDist { get; set; }
     public Mouth()
     {
     }
 }
+
 public class ShipStruct : MonoBehaviour
 {
-
-    List<Mouth> mouths = new List<Mouth>();
-
     public Thruster[] thrustArr;
     Mouth[] mouthArr;
 
-    void ThrusterDec()
+    public void ThrusterDec(Vector2 relPos, int face)
     {
         List<Thruster> thrusters = new List<Thruster>();
         //RELATIVE TO CORE NOT PARENT, YOU TURD STAIN
-        thrusters.Add(new Thruster()
-        { relPos = new Vector2(0, -1), facing = 1 }); //bottom one
-
-        thrusters.Add(new Thruster()
-        { relPos = new Vector2(-1, 0), facing = 2 }); //left one
-        thrusters.Add(new Thruster()
-        { relPos = new Vector2(-1, 1), facing = 0 }); //top left one
-
-        thrusters.Add(new Thruster()
-        { relPos = new Vector2(1, 0), facing = 3 }); //right one
-        thrusters.Add(new Thruster()
-        { relPos = new Vector2(1, 1), facing = 0 }); //top right one
-        /**//**/
-        mouths.Add(new Mouth()
-        { relPos = new Vector2(0, 1), facing = 0 }); //top jop topperson one
+        thrusters.Add(new Thruster() {relPos = relPos, facing = face});
 
         thrustArr = thrusters.ToArray();
     }
+    public void MouthDec(Vector2 relPos, int face, float consDis)
+    {
+        List<Mouth> mouths = new List<Mouth>();
+        mouths.Add(new Mouth(){ relPos = relPos, facing = face, consumeDist = consDis });
 
-
+        mouthArr = mouths.ToArray();
+    }
     // Start is called before the first frame update
     void Start()
     {
-        ThrusterDec();
+
     }
 
     // Update is called once per frame
@@ -67,9 +56,12 @@ public class ShipStruct : MonoBehaviour
     {
         
     }
-
-    public Thruster GetThruster(int index)
+    public Thruster[] GetThrusters()
     {
-        return thrustArr[index];
+        return thrustArr;
+    }
+    public Mouth[] GetMouths()
+    {
+        return mouthArr;
     }
 }

@@ -175,7 +175,7 @@ public class initShip : MonoBehaviour
         float verticalAxis = Input.GetAxis("Vertical");
         Camera.main.transform.position += 5f * (Vector3.up * verticalAxis + Vector3.right * horizontalAxis) * Time.deltaTime; //u can prob figure these lines out
     }
-
+    */
     /* This function is just a tidy little warm blanket to setup the stuff in the scene
      * While the prefabs enjoy a nice cup of cocoa and look out at the window at snow while being wrapped up in a blanket
      * we instantiate them here, and clone them.

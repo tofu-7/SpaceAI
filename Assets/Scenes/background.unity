@@ -456,7 +456,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9012629421896908422}
   - component: {fileID: 873494051503187914}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Thruster (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -578,7 +578,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8577251945805245633}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 25, y: 25, z: 0}
+  m_LocalPosition: {x: 25.5, y: 25.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2049838112014710604}
@@ -648,7 +648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5605139834416400797}
   - component: {fileID: 4379038669612093649}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Thruster (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -666,7 +666,7 @@ GameObject:
   - component: {fileID: 2049838112014710604}
   - component: {fileID: 4030536872581269225}
   - component: {fileID: 7527902965830675069}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Mouth
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -748,7 +748,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2651372170776240513}
   - component: {fileID: 6181081029099190477}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Thruster (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -837,7 +837,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
+  m_Constraints: 4
 --- !u!212 &7006944681213973998
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -898,7 +898,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1166898029370264738}
   - component: {fileID: 7006944681213973998}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Thruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -915,7 +915,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2071937145274473641}
   - component: {fileID: 7911966205875848677}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Thruster
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1006,7 +1006,7 @@ GameObject:
   - component: {fileID: 8577251945805245634}
   - component: {fileID: 8577251945805245643}
   - component: {fileID: 8577251945805245642}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: Core
   m_TagString: Untagged
   m_Icon: {fileID: 0}

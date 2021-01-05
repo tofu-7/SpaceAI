@@ -14,7 +14,8 @@ public class ResourceGenerator : MonoBehaviour
     // Start is called before the first frame update
     void Start() 
     {
-        for (int i= 0; i<ResourceCap; i++)
+        Transform resc;
+        for (int i = 0; i < ResourceCap; i++)
         {
             Transform newR = resource.GetComponent<Transform>();
             newR.position = new Vector3(Random.Range(0f, GlobalEnvironmentLib.xBound), Random.Range(0f, GlobalEnvironmentLib.yBound), 0);
@@ -24,20 +25,24 @@ public class ResourceGenerator : MonoBehaviour
             List<Collider2D> rList = new List<Collider2D>();
 
             bool validPlace = true;
-            
+
             for (int j = 0; j < rCast.Length; j++) {
                 float offsetDist = EuclidDist( newR.position, rCast[j].transform.position);
-                if ( offsetDist < 1)
+                if (offsetDist < 1)
                     validPlace = false;
             }
 
-            if (validPlace == true)
-                    Instantiate(resource);
+            if (validPlace == true) 
+            { 
+                resc = Instantiate(resource);
+                resc.gameObject.layer = LayerMask.NameToLayer("Resc");
+            }
             else
             {
                 ResourceCap++;
                 validPlace = true;
             }
+
         }
     }
 
