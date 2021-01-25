@@ -185,7 +185,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1131753918
 GameObject:
@@ -321,7 +321,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minFOV: 10
   maxFOV: 100
-  zoomRate: 1
+  zoomRate: 10
 --- !u!1 &1586536024
 GameObject:
   m_ObjectHideFlags: 0
@@ -502,7 +502,7 @@ RectTransform:
   m_Children:
   - {fileID: 1131753919}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -523,7 +523,7 @@ GameObject:
   - component: {fileID: 2052196996}
   - component: {fileID: 2052197001}
   m_Layer: 0
-  m_Name: penis penis penis balls balls dicks bruh
+  m_Name: Empty GameObject
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
