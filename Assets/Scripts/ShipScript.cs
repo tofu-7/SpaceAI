@@ -9,6 +9,7 @@ public class ShipScript : MonoBehaviour
     Vector3 mousePos = Vector3.zero; //unfortunately has to be global so we don't reset to 0 everytime we release mouse button
     ShipStruct shipStruct = new ShipStruct();
     float energy;
+    private bool shipCam = true;
 
     void Start()
     {
@@ -53,7 +54,17 @@ public class ShipScript : MonoBehaviour
       //  Debug.Log(Input.mousePosition + ", " + mousePos); //Just a debug
        // Debug.DrawLine(transform.position, mousePos, Color.green); //Just a debug
 
-        CamMove();
+        
+        if (Input.GetKeyDown(KeyCode.Q) && shipCam)
+        {
+            shipCam = false;
+        }
+        else if (Input.GetKeyDown(KeyCode.Q) && !shipCam)
+        {
+            shipCam = true;
+        }
+
+        if (shipCam) { CamMove(); }
       //  Debug.Log(wasd[0] + ", " + wasd[1] + ", " + wasd[2] + ", " + wasd[3]);//Use this to fix your code https://www.youtube.com/watch?v=Oh-HCrGgcH8
 
         coreRb.AddForce(new Vector2(hrz * ff, vrt * ff));
