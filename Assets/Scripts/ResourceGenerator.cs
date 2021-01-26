@@ -19,6 +19,7 @@ public class ResourceGenerator : MonoBehaviour
         {
             Transform newR = resource.GetComponent<Transform>();
             newR.position = new Vector3(Random.Range(0f, GlobalEnvironmentLib.xBound), Random.Range(0f, GlobalEnvironmentLib.yBound), 0);
+            newR.rotation = Quaternion.Euler(0f, 0f, Random.Range(-180f, 180f));
 
             Collider2D[] rCast =
                 Physics2D.OverlapCircleAll(newR.position, 20);
