@@ -10,6 +10,7 @@ public class ShipScript : MonoBehaviour
     ShipStruct shipStruct = new ShipStruct();
     float energy;
     private bool shipCam = true;
+    public float energyRate = 0.5f;
 
     void Start()
     {
@@ -90,7 +91,7 @@ public class ShipScript : MonoBehaviour
         float mass = gameObject.GetComponent<Rigidbody2D>().mass;
 
 
-        Debug.Log(mask.ToString());
+        //Debug.Log(mask.ToString());
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position, transform.TransformDirection(Vector2.up), Mathf.Infinity);
         // Does the ray intersect any objects excluding the player layer
@@ -116,7 +117,7 @@ public class ShipScript : MonoBehaviour
             //Debug.Log("Did not Hit");
         }
 
-        energy -= 0.25f * Time.deltaTime;
+        energy -= energyRate * Time.deltaTime;
         energy = (float)Math.Round(energy, 2);
         if (energy <= 0)
         {
